@@ -1,0 +1,100 @@
+/* src/components/KLA.css */
+html, body {
+  height: 100%; /* 전체 페이지 높이를 100%로 설정 */
+  margin: 0; /* 기본 마진을 제거하여 높이 계산에 영향을 주지 않도록 함 */
+}
+
+body {
+  display: flex;
+  height: 100%; /* 전체 페이지 높이를 100%로 설정 */
+}
+
+.kla-container {
+  display: grid;
+  grid-template-columns: 220px 1fr; /* 사이드바와 콘텐츠 영역의 너비 비율 설정 */
+  height: 100%; /* 전체 페이지 높이를 100%로 설정 */
+}
+
+.sidebar {
+  background-color: #f4f4f4;
+  padding: 20px;
+  box-sizing: border-box; /* 패딩 포함한 높이 계산 */
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+  flex-grow: 1;
+}
+
+.sidebar li {
+  display: flex;
+  align-items: center; /* 아이콘과 텍스트를 수직으로 정렬 */
+  padding: 10px;
+  margin-bottom: 15px; /* 메뉴 항목 간의 간격 조정 */
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* 호버 효과에 애니메이션 추가 */
+}
+
+.sidebar li:hover {
+  background-color: #ddd;
+}
+
+.sidebar li svg {
+  margin-right: 10px; /* 아이콘과 텍스트 간격 조정 */
+}
+
+.content {
+  padding: 20px;
+  background-color: #fff; /* 콘텐츠 영역 배경색 설정 */
+  overflow: auto; /* 콘텐츠가 길어지면 스크롤 가능하게 설정 */
+}
+
+.panel {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  margin-bottom: 20px;
+}
+
+.panel-heading {
+  background-color: #9370DB; /* 진한 보라색으로 변경 */
+  color: white; /* 텍스트 색상 */
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.panel-title {
+  margin: 0;
+  font-size: 16px;
+}
+
+.panel-body {
+  padding: 15px;
+  color: #666;
+  line-height: 1.6;
+}
+
+ol {
+  padding-left: 20px; /* 리스트 아이템 들여쓰기 */
+}
+
+ol li {
+  margin-bottom: 10px;
+}
+
+.well {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f5f5f5;
+  padding: 10px 15px; /* 패딩을 줄임 */
+  margin-top: 20px;
+}

@@ -1,38 +1,89 @@
-.App {
-  text-align: center;
+/* App.css */
+
+/* 리액트로 만든 웹사이트 전체에 대한 설정 */
+#root {
+  height: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+html,
+body {
+  height: 100%;
+  margin: 0;  
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+body {
   display: flex;
   flex-direction: column;
+  height: 100%;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.main-container {
+  flex: 1;
+  margin-bottom: 0; /* 불필요한 여백 제거 */
+  padding-bottom: 0; /* 필요 시 추가 */
+}
+
+header {
+  background-color: #282c34;
+  padding: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.left-menu,
+.right-menu {
+  display: flex;
+  align-items: center;
+}
+
+.left-menu {
+  gap: 40px;
+}
+
+.right-menu {
+  gap: 40px;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.3em; /* h2 크기 조정 */
+}
+
+a {
   color: white;
+  text-decoration: none; /* 밑줄 제거 */
 }
 
-.App-link {
-  color: #61dafb;
+a:hover {
+  text-decoration: none; /* hover 시 밑줄 제거 */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* 이메일 주소와 로그아웃 버튼을 흰색으로 표시 */
+.right-menu span {
+  color: white; /* 흰색으로 표시 */
+  font-weight: normal;
+  cursor: default; /* 기본 커서 */
+}
+
+.right-menu span:last-child {
+  color: white; /* 흰색으로 표시 */
+  cursor: pointer;
+}
+
+.right-menu span:last-child:hover {
+  text-decoration: underline; /* hover 시 밑줄 추가 */
 }

@@ -1,0 +1,76 @@
+/* src/components/Introduction.css */
+
+.introduction {
+  padding: 40px 20px;
+  margin: 0 auto;
+  font-family: "Arial", sans-serif;
+  color: #333;
+  /*max-width: 1200px;*/
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+  visibility: hidden;
+
+  /* 부모 요소 높이 채우기 */
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 80px); /* Footer 높이를 제외한 화면 크기 */
+}
+
+.introduction.animate {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.introduction-content {
+  display: flex; /* 텍스트와 이미지만 플렉스 레이아웃 적용 */
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 40px; /* Footer와의 간격 */
+}
+
+/* 기존 스타일 유지 */
+.introduction-text-content {
+  flex: 1;
+  max-width: 50%;
+  text-align: left;
+  margin-left: 40px;
+}
+
+.introduction-text-content-title {
+  font-size: 3rem; /* 제목 크기 */
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.introduction-text-content-subtitle {
+  font-size: 1.5rem; /* 부제목 크기 */
+  margin-bottom: 30px;
+}
+
+.introduction-text-content-values {
+  margin-top: 20px;
+}
+
+.introduction-text-content-value-list li {
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.image-container {
+  flex: 1;
+  max-width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 20px;
+  margin-right: 40px;
+}
+
+.main-image {
+  width: 100%;
+  max-height: 500px;
+  object-fit: contain;
+}

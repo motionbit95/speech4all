@@ -1,0 +1,113 @@
+/* src/components/KLA/KLAInput.css */
+
+.panel {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.panel-heading {
+  background-color: #fff;
+  color: #333;
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.panel-title {
+  margin: 0;
+  font-size: 18px;
+}
+
+.panel-body {
+  padding: 15px;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* 유틸리티 클래스 정의 */
+.pt-20 {
+  padding-top: 20px;
+}
+
+.pt-40 {
+  padding-top: 40px;
+}
+
+.pl-10 {
+  padding-left: 10px;
+}
+
+.pr-10 {
+  padding-right: 10px;
+}
+
+.text-muted {
+  color: #6c757d; /* 텍스트 색상을 연한 회색으로 설정 */
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+/* 폼 관련 스타일 */
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.btn {
+  padding: 10px 20px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-end; /* 버튼을 오른쪽 끝으로 정렬 */
+  margin-top: 20px; /* 상단에 약간의 간격 추가 */
+}
+
+.btn .fa {
+  margin-left: 5px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* 테이블 스타일 추가 */
+.info-table td {
+  padding: 5px 15px 5px 0; /* 좌측과 우측 간격을 조정 */
+  vertical-align: middle; /* 텍스트와 입력란을 가운데 정렬 */
+}
+
+.info-table label {
+  margin-right: 10px; /* 라벨과 텍스트박스 간 여백 추가 */
+}
+
+/* 발화 종류 라디오 버튼 한 줄 배치 */
+.radio-group {
+  display: flex;
+  gap: 15px; /* 라디오 버튼 사이의 간격 조정 */
+  align-items: center;
+}
