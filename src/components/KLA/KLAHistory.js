@@ -14,10 +14,13 @@ function KLAHistory({ user }) {
       return;
     }
     try {
-      const response = await axios.get("https://speech4all.kr/api/history", {
-        params: { user_id: user.id },
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/history`,
+        {
+          params: { user_id: user.id },
+          withCredentials: true,
+        }
+      );
       setHistory(response.data);
     } catch (error) {
       console.error("Error fetching history:", error);
@@ -32,9 +35,12 @@ function KLAHistory({ user }) {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`https://speech4all.kr/api/history/${id}`, {
-        withCredentials: true,
-      });
+      await axios.delete(
+        `${process.env.REACT_APP_SERVER_URL}/api/history/${id}`,
+        {
+          withCredentials: true,
+        }
+      );
       alert("삭제되었습니다.");
       fetchHistory(); // 삭제 후 기록 갱신
     } catch (error) {
@@ -52,7 +58,7 @@ function KLAHistory({ user }) {
 
     try {
       const response = await axios.get(
-        `https://speech4all.kr/api/downloadPDF/${record.id}`,
+        `${process.env.REACT_APP_SERVER_URL}/api/downloadPDF/${record.id}`,
         {
           responseType: "blob",
           withCredentials: true,

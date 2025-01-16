@@ -2,7 +2,8 @@ const express = require("express");
 const mysql = require("mysql2");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs"); // bcryptjs로 변경
+require("dotenv").config();
 
 const app = express();
 app.use(bodyParser.json());
@@ -28,10 +29,10 @@ app.use((req, res, next) => {
 
 // MySQL 연결 설정
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root", // MySQL 사용자명
-  password: "wjdAls20", // MySQL 비밀번호
-  database: "KLA", // 데이터베이스 이름
+  host: process.env.DB_HOST, // MySQL 서버 이름
+  user: process.env.DB_USER, // MySQL 사용자명
+  password: process.env.DB_PASSWORD, // MySQL 비밀번호
+  database: process.env.DB_NAME, // 데이터베이스 이름
 });
 
 db.connect((err) => {
@@ -43,7 +44,7 @@ db.connect((err) => {
 });
 
 // 로그인 API
-app.post("/login", (req, res) => {
+app.post("/api/login", (req, res) => {
   const { email, password } = req.body;
 
   const query = "SELECT * FROM users WHERE email = ?";
@@ -70,7 +71,7 @@ app.post("/login", (req, res) => {
 });
 
 // 회원가입 API
-app.post("/signup", async (req, res) => {
+app.post("/api/signup", async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -184,7 +185,7 @@ app.delete("/api/history/:id", async (req, res) => {
 });
 
 // 서버 시작
-const PORT = 5000;
+const PORT = 8081;
 app.listen(PORT, () => {
   console.log(`서버가 ${PORT} 포트에서 실행 중입니다.`);
 });

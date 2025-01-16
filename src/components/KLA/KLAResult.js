@@ -30,10 +30,13 @@ const saveAnalysisToServer = async (
   formData.append("pdf_file", pdfBlob, `${analysisData.info.name}_report.pdf`);
 
   try {
-    const response = await fetch("https://speech4all.kr/api/saveAnalysis", {
-      method: "POST",
-      body: formData,
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_SERVER_URL}/api/saveAnalysis`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
     if (response.ok) {
       alert("분석 결과가 성공적으로 저장되었습니다!");

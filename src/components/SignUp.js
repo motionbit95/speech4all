@@ -25,7 +25,7 @@ function SignUp() {
     setSuccessMessage(""); // 성공 메시지 초기화
 
     try {
-      await axios.post("https://speech4all.kr/api/signup", {
+      await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/signup`, {
         email,
         password,
       });

@@ -13,10 +13,13 @@ function Login({ onLogin }) {
     e.preventDefault();
 
     try {
-      const response = await axios.post("https://speech4all.kr/api/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/api/login`,
+        {
+          email,
+          password,
+        }
+      );
       const user = response.data.user; // 서버에서 반환된 user 객체
       onLogin(user); // 로그인 성공 시 부모 컴포넌트로 이메일 전달
       alert(response.data.message); // 로그인 성공 메시지
