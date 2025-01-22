@@ -12,6 +12,9 @@ import SignUp from "./components/SignUp"; // 회원가입 컴포넌트 추가
 import Login_v2 from "./pages/Login";
 import { ConfigProvider } from "antd";
 import theme from "./assets/styles/theme";
+import { BsRouterFill } from "react-icons/bs";
+import Signup_v2 from "./pages/Signup";
+import styled from "styled-components";
 
 function App() {
   const [user, setUser] = useState(null); // 로그인 상태 관리
@@ -43,7 +46,7 @@ function App() {
     <ConfigProvider theme={theme}>
       <Router>
         <div className="app-container">
-          <header>
+          {/* <header>
             <nav>
               <div className="left-menu">
                 <h2>
@@ -72,8 +75,8 @@ function App() {
                 )}
               </div>
             </nav>
-          </header>
-          <div className="main-container">
+          </header> */}
+          <MainContainer>
             <Routes>
               <Route path="/" element={<Introduction />} />
               <Route path="/kla/*" element={<KLA user={user} />} />
@@ -88,12 +91,21 @@ function App() {
                 path="/v2/login"
                 element={<Login_v2 onLogin={handleLogin} />} // Login 컴포넌트에 로그인 핸들러 전달
               />
+
+              <Route
+                path="/v2/signup"
+                element={<Signup_v2 />} // Login 컴포넌트에 로그인 핸들러 전달
+              />
             </Routes>
-          </div>
+          </MainContainer>
         </div>
       </Router>
     </ConfigProvider>
   );
 }
+
+const MainContainer = styled.div`
+  min-width: 280px;
+`;
 
 export default App;
