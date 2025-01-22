@@ -3,11 +3,15 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import axios from "axios";
 import "./App.css";
+import "./assets/styles/global.css";
 import Introduction from "./components/Introduction";
 import KLA from "./components/KLA/KLA";
 // import KLAWorkshop from "./components/KLAWorkshop/KLA";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp"; // 회원가입 컴포넌트 추가
+import Login_v2 from "./pages/Login";
+import { ConfigProvider } from "antd";
+import theme from "./assets/styles/theme";
 
 function App() {
   const [user, setUser] = useState(null); // 로그인 상태 관리
@@ -36,52 +40,59 @@ function App() {
   };
 
   return (
-    <Router>
-      <div className="app-container">
-        <header>
-          <nav>
-            <div className="left-menu">
-              <h2>
-                <Link to="/">Speech4All</Link>
-              </h2>
-              <h2>
-                <Link to="/kla">KLA</Link>
-              </h2>
-            </div>
-            <div className="right-menu">
-              {user ? ( // 로그인 상태에 따라 동적으로 메뉴 변경
+    <ConfigProvider theme={theme}>
+      <Router>
+        <div className="app-container">
+          <header>
+            <nav>
+              <div className="left-menu">
                 <h2>
-                  <span>{user.email}</span>
-                  {"  "}
-                  <span
-                    onClick={handleLogout}
-                    style={{ cursor: "pointer", color: "white" }}
-                  >
-                    로그아웃
-                  </span>
+                  <Link to="/">Speech4All</Link>
                 </h2>
-              ) : (
                 <h2>
-                  <Link to="/login">로그인</Link>
+                  <Link to="/kla">KLA</Link>
                 </h2>
-              )}
-            </div>
-          </nav>
-        </header>
-        <div className="main-container">
-          <Routes>
-            <Route path="/" element={<Introduction />} />
-            <Route path="/kla/*" element={<KLA user={user} />} />
-            {/* <Route path="/kla-workshop/*" element={<KLAWorkshop />} /> */}
-            <Route
-              path="/login"
-              element={<Login onLogin={handleLogin} />} // Login 컴포넌트에 로그인 핸들러 전달
-            />
-            <Route path="/signup" element={<SignUp />} />
-          </Routes>
+              </div>
+              <div className="right-menu">
+                {user ? ( // 로그인 상태에 따라 동적으로 메뉴 변경
+                  <h2>
+                    <span>{user.email}</span>
+                    {"  "}
+                    <span
+                      onClick={handleLogout}
+                      style={{ cursor: "pointer", color: "white" }}
+                    >
+                      로그아웃
+                    </span>
+                  </h2>
+                ) : (
+                  <h2>
+                    <Link to="/login">로그인</Link>
+                  </h2>
+                )}
+              </div>
+            </nav>
+          </header>
+          <div className="main-container">
+            <Routes>
+              <Route path="/" element={<Introduction />} />
+              <Route path="/kla/*" element={<KLA user={user} />} />
+              {/* <Route path="/kla-workshop/*" element={<KLAWorkshop />} /> */}
+              <Route
+                path="/login"
+                element={<Login onLogin={handleLogin} />} // Login 컴포넌트에 로그인 핸들러 전달
+              />
+              <Route path="/signup" element={<SignUp />} />
+
+              <Route
+                path="/v2/login"
+                element={<Login_v2 onLogin={handleLogin} />} // Login 컴포넌트에 로그인 핸들러 전달
+              />
+            </Routes>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </ConfigProvider>
   );
 }
 

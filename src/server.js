@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcryptjs"); // bcryptjs로 변경
 require("dotenv").config();
+const multer = require("multer");
+const upload = multer();
 
 const app = express();
 app.use(bodyParser.json());
@@ -101,14 +103,14 @@ app.post("/api/signup", async (req, res) => {
   }
 });
 
-app.post("/logout", (req, res) => {
+app.post("/api/logout", (req, res) => {
   // 세션을 제거하거나 토큰을 무효화
   // 예: 세션이 있다면 req.session.destroy();
   res.status(200).json({ message: "로그아웃 성공" });
 });
 
 // 분석 결과 저장 API
-app.post("/api/saveAnalysis", async (req, res) => {
+app.post("/api/saveAnalysis", upload.single("pdf_file"), async (req, res) => {
   const {
     user_id,
     client_name,
@@ -125,6 +127,16 @@ app.post("/api/saveAnalysis", async (req, res) => {
       (user_id, client_name, client_birthday, client_gender, analysis_date, input_text, analysis_result) 
       VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
+
+    console.log(
+      user_id,
+      client_name,
+      client_birthday,
+      client_gender,
+      analysis_date,
+      input_text,
+      JSON.stringify(analysis_result)
+    );
 
     const [result] = await db
       .promise()

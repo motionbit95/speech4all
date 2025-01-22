@@ -1,0 +1,49 @@
+:root {
+  --fg-primary: #40a9ff;
+  --fg-secondary: #91d5ff;
+
+  --bg-body: #fff;
+  --bg-primary: #e6f7ff;
+  --bg-disable: #f5f5f5;
+  --bg-secondary: #f1f1f1;
+  --bg-light: #fafafa;
+
+  --border-component: #e2e8f0;
+  --border-disable: #d9d9d9;
+
+  --text-dark: #fff;
+  --text-secondary: #8c8c8c;
+  --text-light: #141414;
+}
+
+@font-face {
+  font-family: "SBAggroL"; /* Light 스타일 */
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroL.woff")
+    format("woff");
+  font-weight: 300; /* 얇은 폰트에 적합한 굵기 */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SBAggroM"; /* Medium 스타일 */
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroM.woff")
+    format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SBAggroB"; /* Bold 스타일 */
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
