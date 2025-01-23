@@ -1,42 +1,42 @@
-// src/App.js
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import axios from "axios";
 import "./App.css";
 import "./assets/styles/global.css";
 import Introduction from "./components/Introduction";
 import KLA from "./components/KLA/KLA";
-// import KLAWorkshop from "./components/KLAWorkshop/KLA";
-import Login from "./components/Login";
-import SignUp from "./components/SignUp"; // 회원가입 컴포넌트 추가
-import Login_v2 from "./pages/Login";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import { ConfigProvider } from "antd";
 import theme from "./assets/styles/theme";
-import { BsRouterFill } from "react-icons/bs";
-import Signup_v2 from "./pages/Signup";
 import styled from "styled-components";
+import Header from "./component/Header";
 
 function App() {
-  const [user, setUser] = useState(null); // 로그인 상태 관리
+  const [user, setUser] = useState(null);
 
-  // 로그인 상태 복원
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
     if (savedUser) {
-      setUser(JSON.parse(savedUser)); // 저장된 사용자 정보를 상태로 복원
+      setUser(JSON.parse(savedUser));
     }
   }, []);
 
   const handleLogin = (user) => {
-    setUser(user); // 상태 업데이트
-    localStorage.setItem("user", JSON.stringify(user)); // localStorage에 사용자 정보 저장
+    setUser(user);
+    localStorage.setItem("user", JSON.stringify(user));
   };
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/logout`); // 서버로 로그아웃 요청
-      setUser(null); // 상태 초기화
-      localStorage.removeItem("user"); // localStorage에서 사용자 정보 삭제
+      await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/logout`);
+      setUser(null);
+      localStorage.removeItem("user");
     } catch (error) {
       console.error("로그아웃 실패:", error);
     }
@@ -45,62 +45,29 @@ function App() {
   return (
     <ConfigProvider theme={theme}>
       <Router>
-        <div className="app-container">
-          {/* <header>
-            <nav>
-              <div className="left-menu">
-                <h2>
-                  <Link to="/">Speech4All</Link>
-                </h2>
-                <h2>
-                  <Link to="/kla">KLA</Link>
-                </h2>
-              </div>
-              <div className="right-menu">
-                {user ? ( // 로그인 상태에 따라 동적으로 메뉴 변경
-                  <h2>
-                    <span>{user.email}</span>
-                    {"  "}
-                    <span
-                      onClick={handleLogout}
-                      style={{ cursor: "pointer", color: "white" }}
-                    >
-                      로그아웃
-                    </span>
-                  </h2>
-                ) : (
-                  <h2>
-                    <Link to="/login">로그인</Link>
-                  </h2>
-                )}
-              </div>
-            </nav>
-          </header> */}
-          <MainContainer>
-            <Routes>
-              <Route path="/" element={<Introduction />} />
-              <Route path="/kla/*" element={<KLA user={user} />} />
-              {/* <Route path="/kla-workshop/*" element={<KLAWorkshop />} /> */}
-              <Route
-                path="/login"
-                element={<Login onLogin={handleLogin} />} // Login 컴포넌트에 로그인 핸들러 전달
-              />
-              <Route path="/signup" element={<SignUp />} />
-
-              <Route
-                path="/v2/login"
-                element={<Login_v2 onLogin={handleLogin} />} // Login 컴포넌트에 로그인 핸들러 전달
-              />
-
-              <Route
-                path="/v2/signup"
-                element={<Signup_v2 />} // Login 컴포넌트에 로그인 핸들러 전달
-              />
-            </Routes>
-          </MainContainer>
-        </div>
+        <AppContent user={user} onLogout={handleLogout} onLogin={handleLogin} />
       </Router>
     </ConfigProvider>
+  );
+}
+
+function AppContent({ user, onLogout, onLogin }) {
+  const location = useLocation();
+  const hideHeaderRoutes = ["/login", "/signup"];
+  const showHeader = !hideHeaderRoutes.includes(location.pathname);
+
+  return (
+    <div className="app-container">
+      {showHeader && <Header user={user} onLogout={onLogout} />}
+      <MainContainer>
+        <Routes>
+          <Route path="/" element={<Introduction />} />
+          <Route path="/kla/*" element={<KLA user={user} />} />
+          <Route path="/login" element={<Login onLogin={onLogin} />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+      </MainContainer>
+    </div>
   );
 }
 

@@ -7,7 +7,7 @@ import { PrimaryButton } from "../component/Button";
 import { PasswordInput, TextInput } from "../component/Input";
 import { H3, H4 } from "../component/Typography";
 
-function Signup_v2() {
+function Signup() {
   const [form] = Form.useForm();
   const isDesktop = useMediaQuery({ query: "(min-width: 576px)" });
 
@@ -158,4 +158,4 @@ const Login = styled.div`
   }
 `;
 
-export default Signup_v2;
+export default Signup;

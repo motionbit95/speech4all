@@ -7,7 +7,7 @@ import { Form, message } from "antd";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function Login_v2(props) {
+function Login(props) {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const onLogin = (values) => {
@@ -119,4 +119,4 @@ const FindPassword = styled.div`
   cursor: pointer;
 `;
 
-export default Login_v2;
+export default Login;
