@@ -61,7 +61,7 @@ function Login(props) {
       </LoginForm>
       <LoginWrapper>
         <>계정이 없으신가요?</>
-        <SecondaryButton size="large" onClick={() => navigate("/v2/signup")}>
+        <SecondaryButton size="large" onClick={() => navigate("/signup")}>
           회원가입
         </SecondaryButton>
       </LoginWrapper>

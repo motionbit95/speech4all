@@ -8,7 +8,6 @@ import {
 import axios from "axios";
 import "./App.css";
 import "./assets/styles/global.css";
-import Introduction from "./components/Introduction";
 import KLA from "./components/KLA/KLA";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -16,6 +15,8 @@ import { ConfigProvider } from "antd";
 import theme from "./assets/styles/theme";
 import styled from "styled-components";
 import Header from "./component/Header";
+import Footer from "./component/Footer";
+import Home from "./pages/Home";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -61,18 +62,22 @@ function AppContent({ user, onLogout, onLogin }) {
       {showHeader && <Header user={user} onLogout={onLogout} />}
       <MainContainer>
         <Routes>
-          <Route path="/" element={<Introduction />} />
+          <Route path="/" element={<Home />} />
           <Route path="/kla/*" element={<KLA user={user} />} />
           <Route path="/login" element={<Login onLogin={onLogin} />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>
       </MainContainer>
+      {showHeader && <Footer />}
     </div>
   );
 }
 
 const MainContainer = styled.div`
   min-width: 280px;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
 `;
 
 export default App;
