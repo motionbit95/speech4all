@@ -1,57 +1,33 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
-import { Layout, Menu, Space } from "antd";
+import { Space } from "antd";
 import { BiChevronDown, BiEdit, BiFile, BiHome } from "react-icons/bi";
-import { H3, H4 } from "./Typography";
-import { useNavigate } from "react-router-dom";
+import { H4 } from "./Typography";
+import { useLocation, useNavigate } from "react-router-dom";
 import { PrimaryButton, SecondaryButton } from "./Button";
-
-const { Header } = Layout;
 
 function TopHeader(props) {
   const { user, onLogout } = props;
+  const [openSubmenu, setOpenSubmenu] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    console.log(user);
-  }, [user]);
-  const navigate = useNavigate();
-  const items = [
-    {
-      key: "1",
-      label: (
-        <MenuItem>
-          <H4>KLA</H4>{" "}
-          <BiChevronDown size="24px" style={{ marginLeft: "4px" }} />
-        </MenuItem>
-      ),
-      children: [
-        {
-          key: "1-1",
-          label: "소개 및 분석방법",
-          icon: <BiHome />,
-        },
-        {
-          key: "1-2",
-          label: "신규 발화 분석",
-          icon: <BiEdit />,
-        },
-        {
-          key: "1-3",
-          label: "분석 기록",
-          icon: <BiFile />,
-        },
-      ],
-    },
-    {
-      key: "2",
-      label: (
-        <MenuItem>
-          <H4>언어평가 체크리스트</H4>
-        </MenuItem>
-      ),
-    },
-  ];
+    setOpenSubmenu(null); // 경로 변경 시 서브메뉴 닫기
+  }, [location.pathname]); // pathname이 변경될 때마다 실행
+
+  const toggleSubmenu = (key) => {
+    setOpenSubmenu((prev) => (prev === key ? null : key));
+  };
+
+  const submenuItems = {
+    kla: [
+      { key: "kla/intro", label: "소개 및 분석방법", icon: <BiHome /> },
+      { key: "1-2", label: "신규 발화 분석", icon: <BiEdit /> },
+      { key: "1-3", label: "분석 기록", icon: <BiFile /> },
+    ],
+  };
 
   return (
     <HeaderContainer>
@@ -62,17 +38,29 @@ function TopHeader(props) {
       >
         Speech4All
       </Logo>
-      <MenuContainer
-        mode="horizontal"
-        theme="light"
-        defaultSelectedKeys={["2"]}
-        items={items}
-        style={{
-          flex: 1,
-          minWidth: 0,
-          border: "none",
-        }}
-      />
+      <MenuWrapper>
+        <MenuItem onClick={() => toggleSubmenu("kla")}>
+          <H4>KLA</H4>
+          <BiChevronDown size="24px" style={{ marginLeft: "4px" }} />
+          <Submenu isOpen={openSubmenu === "kla"}>
+            {submenuItems.kla.map((item) => (
+              <SubmenuItem
+                key={item.key}
+                onClick={() => {
+                  navigate(`/${item.key}`);
+                }}
+              >
+                {item.icon}
+                <span>{item.label}</span>
+              </SubmenuItem>
+            ))}
+          </Submenu>
+        </MenuItem>
+
+        <MenuItem onClick={() => navigate("/checklist")}>
+          <H4>언어평가 체크리스트</H4>
+        </MenuItem>
+      </MenuWrapper>
       {user ? (
         <Space size={16}>
           <H4
@@ -97,12 +85,12 @@ function TopHeader(props) {
   );
 }
 
-const HeaderContainer = styled(Header)`
+const HeaderContainer = styled.header`
   background-color: var(--bg-body);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 24px;
+  padding: 24px;
   position: sticky;
   top: 0;
   left: 0;
@@ -110,17 +98,69 @@ const HeaderContainer = styled(Header)`
   gap: 64px;
 `;
 
-const MenuContainer = styled(Menu)`
+const MenuWrapper = styled.nav`
+  display: flex;
   flex: 1;
-  min-width: 0;
+  gap: 32px;
+  justify-content: flex-start;
+`;
+
+const Submenu = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 200px;
+  margin-top: 8px;
+  background: white;
+  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 16px 8px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-radius: 8px;
+
+  // 기본적으로 안 보이게 설정
+  opacity: 0;
+  transform: translateY(-10px);
+  visibility: hidden;
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0.3s;
+
+  // isOpen이 true일 때 활성화
+  ${({ isOpen }) =>
+    isOpen &&
+    `
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+  `}
 `;
 
 const MenuItem = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
-  justify-content: space-between;
+  cursor: pointer;
   font-size: 16px;
+  gap: 10px;
+`;
+
+const SubmenuItem = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+  border-radius: 10px;
+
+  &:hover {
+    background: var(--bg-primary);
+    color: var(--fg-primary);
+  }
+
+  span {
+    margin-left: 8px;
+  }
 `;
 
 export default TopHeader;

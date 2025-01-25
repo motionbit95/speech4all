@@ -23,9 +23,14 @@ export const SecondaryButton = styled(Button)`
 export const DarkButton = styled(Button)`
   background-color: var(--text-light);
   color: var(--text-dark);
-  font-weight: bold;
+  font-weight: 500;
+  padding: 8px 32px;
   border: 1px solid var(--border-disable);
-  border-radius: 5px;
+  border-radius: 8px;
   font-size: 16px;
   transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: var(--text-secondary) !important;
+  }
 `;

@@ -40,7 +40,8 @@ const FooterContainer = styled.div`
   box-sizing: border-box;
   padding: 64px 72px;
   white-space: pre-wrap;
-  background-color: var(--bg-disable);
+  background-color: var(--bg-light);
+  border-top: 1px solid var(--border-component);
   display: flex;
   flex-direction: column;
   gap: 32px;
