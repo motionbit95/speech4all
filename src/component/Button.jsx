@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button, Radio } from "antd";
 import styled from "styled-components";
 
 export const PrimaryButton = styled(Button)`
@@ -9,6 +9,12 @@ export const PrimaryButton = styled(Button)`
   border-radius: 5px;
   font-size: 16px;
   transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: var(--fg-secondary) !important;
+    border: 1px solid var(--fg-secondary) !important;
+    color: var(--text-dark) !important;
+  }
 `;
 
 export const SecondaryButton = styled(Button)`

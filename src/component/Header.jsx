@@ -2,8 +2,14 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
 import { Space } from "antd";
-import { BiChevronDown, BiEdit, BiFile, BiHome } from "react-icons/bi";
-import { H4 } from "./Typography";
+import {
+  BiArrowBack,
+  BiChevronDown,
+  BiEdit,
+  BiFile,
+  BiHome,
+} from "react-icons/bi";
+import { H3, H4 } from "./Typography";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PrimaryButton, SecondaryButton } from "./Button";
 
@@ -24,7 +30,7 @@ function TopHeader(props) {
   const submenuItems = {
     kla: [
       { key: "kla/intro", label: "소개 및 분석방법", icon: <BiHome /> },
-      { key: "1-2", label: "신규 발화 분석", icon: <BiEdit /> },
+      { key: "kla/input", label: "신규 발화 분석", icon: <BiEdit /> },
       { key: "1-3", label: "분석 기록", icon: <BiFile /> },
     ],
   };
@@ -84,6 +90,40 @@ function TopHeader(props) {
     </HeaderContainer>
   );
 }
+
+export function PageHeader(props) {
+  const { title, onSubmit, buttonText } = props;
+  const navigate = useNavigate();
+  return (
+    <PageHeaderContainer>
+      <Space size={16}>
+        <BiArrowBack size="24px" onClick={() => navigate(-1)} />
+        <H3>{title}</H3>
+      </Space>
+      <PrimaryButton size="large" onClick={onSubmit}>
+        {buttonText}
+      </PrimaryButton>
+    </PageHeaderContainer>
+  );
+}
+
+const PageHeaderContainer = styled.header`
+  background-color: var(--bg-body);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 36px;
+
+  box-sizing: border-box;
+  gap: 64px;
+
+  max-width: 1280px;
+  margin: 0 auto;
+
+  width: 100%;
+
+  border-bottom: 1px solid var(--border-component);
+`;
 
 const HeaderContainer = styled.header`
   background-color: var(--bg-body);

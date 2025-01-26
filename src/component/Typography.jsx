@@ -25,14 +25,14 @@ export const H4 = styled.div`
   font-size: 16px;
   font-family: "Pretendard", sans-serif;
   color: var(--text-primary);
-  font-weight: 500;
+  font-weight: 600;
 `;
 
 export const H5 = styled.div`
   font-size: 14px;
   font-family: "Pretendard", sans-serif;
   color: var(--text-primary);
-  font-weight: 400;
+  font-weight: 600;
 `;
 
 export const B1 = styled.div`
