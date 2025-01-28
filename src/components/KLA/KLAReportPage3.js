@@ -34,6 +34,7 @@ const KLAReportPage3 = forwardRef(({ customData }, ref) => {
         boxShadow: 3, // 그림자 추가
         margin: "20px", // 바깥쪽 여백 추가
         //overflowY: 'auto', // 내용이 넘칠 경우 스크롤
+        aspectRatio: "794 / 1123",
       }}
     >
       <Paper

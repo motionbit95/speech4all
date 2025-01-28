@@ -74,6 +74,7 @@ const KLAReportPage8 = forwardRef(({ customData }, ref) => {
             boxShadow: 3,
             margin: "20px",
             pageBreakAfter: "always",
+            aspectRatio: "794 / 1123",
           }}
         >
           <Paper

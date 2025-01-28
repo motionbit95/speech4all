@@ -32,6 +32,7 @@ const KLAReportPage2 = forwardRef(({ customData }, ref) => {
         backgroundColor: "white",
         boxShadow: 3, // 그림자 추가
         margin: "20px",
+        aspectRatio: "794 / 1123",
       }}
     >
       <Paper

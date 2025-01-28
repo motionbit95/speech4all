@@ -100,9 +100,11 @@ export function PageHeader(props) {
         <BiArrowBack size="24px" onClick={() => navigate(-1)} />
         <H3>{title}</H3>
       </Space>
-      <PrimaryButton size="large" onClick={onSubmit}>
-        {buttonText}
-      </PrimaryButton>
+      {buttonText && (
+        <PrimaryButton size="large" onClick={onSubmit}>
+          {buttonText}
+        </PrimaryButton>
+      )}
     </PageHeaderContainer>
   );
 }
