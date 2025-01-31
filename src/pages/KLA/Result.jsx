@@ -233,15 +233,15 @@ function KLAResult() {
   };
 
   return (
-    <Box sx={{ padding: 3, height: "100vh", overflowY: "auto" }}>
+    <div>
       <PageHeader title="결과 보고서" />
 
-      <IndicatorContainer>
-        <SideComponent align="flex-start">
+      <IndicatorContainer isMobile={isMobile}>
+        <SideComponent align="flex-start" style={{ width: "100%" }}>
           <H4>report.pdf</H4>
         </SideComponent>
 
-        <PaginationWrapper>
+        <PaginationWrapper isMobile={isMobile}>
           <Pagination
             simple
             defaultCurrent={1}
@@ -252,8 +252,13 @@ function KLAResult() {
           />
         </PaginationWrapper>
 
-        <SideComponent align="flex-end">
-          <Space>
+        <SideComponent>
+          <Space
+            style={{
+              width: "100%",
+              justifyContent: "flex-end",
+            }}
+          >
             <SecondaryButton size="large" onClick={handleSave}>
               저장하기
             </SecondaryButton>
@@ -271,7 +276,11 @@ function KLAResult() {
             maxWidth: isMobile ? "100%" : "300px",
           }}
         >
-          <PreviewContainer scale={isMobile ? 0.4 : 0.3} direction="vertical">
+          <PreviewContainer
+            isMobile={isMobile}
+            scale={isMobile ? 0.4 : 0.3}
+            direction="vertical"
+          >
             <PreviewWrapper
               onClick={() => setCurrentPage(1)}
               isSelected={currentPage === 1}
@@ -364,30 +373,34 @@ function KLAResult() {
           </DetailContainer>
         </Col>
       </PageContainer>
-    </Box>
+    </div>
   );
 }
 
 const IndicatorContainer = styled.div`
   display: flex;
+  flex-direction: ${({ isMobile }) => (isMobile ? "column" : "row")};
   justify-content: space-between;
   align-items: center;
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
   padding: 16px 24px;
+  box-sizing: border-box;
   background-color: var(--bg-disable);
+  gap: 16px;
 `;
 
 const SideComponent = styled.div`
   flex: 1;
   display: flex;
   justify-content: ${({ align }) => align || "flex-start"};
+  width: 100%;
 `;
 
 const PaginationWrapper = styled.div`
   flex: 2;
-  display: flex;
+  display: ${(isMobile) => (isMobile ? "none" : "flex")};
   justify-content: center;
 `;
 
@@ -397,8 +410,9 @@ const PageContainer = styled.div`
   margin: 0 auto;
   gap: 16px;
 
-  height: ${1123 + 120}px;
-  overflow: hidden;
+  height: 100vh;
+
+  overflow: scroll;
 `;
 
 const PreviewContainer = styled.div`
@@ -408,8 +422,9 @@ const PreviewContainer = styled.div`
   transform: scale(${(props) => props.scale});
   width: calc(100% * (1 / ${(props) => props.scale}));
   align-items: center;
-  height: ${(props) => (1123 + 120) * (1 / props.scale)}px;
-  overflow: scroll;
+  height: ${({ scale, isMobile }) =>
+    isMobile ? "100%" : (1123 + 120) * (1 / scale)}px;);
+  overflow: ${({ isMobile }) => (isMobile ? "auto" : "scroll")};
 
   minwidth: 300px;
 `;

@@ -1,27 +1,32 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
-import { Space } from "antd";
+import { Space, Drawer } from "antd";
 import {
   BiArrowBack,
   BiChevronDown,
   BiEdit,
   BiFile,
   BiHome,
+  BiMenu,
 } from "react-icons/bi";
 import { H3, H4 } from "./Typography";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PrimaryButton, SecondaryButton } from "./Button";
+import { useMediaQuery } from "react-responsive";
+import { FaHamburger } from "react-icons/fa";
 
 function TopHeader(props) {
   const { user, onLogout } = props;
   const [openSubmenu, setOpenSubmenu] = useState(null);
+  const [drawerVisible, setDrawerVisible] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
 
   useEffect(() => {
-    setOpenSubmenu(null); // 경로 변경 시 서브메뉴 닫기
-  }, [location.pathname]); // pathname이 변경될 때마다 실행
+    setOpenSubmenu(null); // Close submenu when the path changes
+  }, [location.pathname]);
 
   const toggleSubmenu = (key) => {
     setOpenSubmenu((prev) => (prev === key ? null : key));
@@ -35,40 +40,55 @@ function TopHeader(props) {
     ],
   };
 
-  return (
-    <HeaderContainer>
-      <Logo
-        size="24px"
-        style={{ cursor: "pointer" }}
-        onClick={() => navigate("/")}
-      >
-        Speech4All
-      </Logo>
-      <MenuWrapper>
+  const handleDrawerToggle = () => {
+    setDrawerVisible(!drawerVisible);
+  };
+
+  const closeDrawer = () => {
+    setDrawerVisible(false);
+  };
+
+  const menuContent = (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "space-between",
+        height: "100%",
+      }}
+    >
+      <MenuWrapper isDesktop={isDesktop}>
         <MenuItem onClick={() => toggleSubmenu("kla")}>
           <H4>KLA</H4>
           <BiChevronDown size="24px" style={{ marginLeft: "4px" }} />
-          <Submenu isOpen={openSubmenu === "kla"}>
-            {submenuItems.kla.map((item) => (
-              <SubmenuItem
-                key={item.key}
-                onClick={() => {
-                  navigate(`/${item.key}`);
-                }}
-              >
-                {item.icon}
-                <span>{item.label}</span>
-              </SubmenuItem>
-            ))}
-          </Submenu>
         </MenuItem>
+        <div style={{ display: openSubmenu === "kla" ? "block" : "none" }}>
+          {submenuItems.kla.map((item) => (
+            <SubmenuItem
+              key={item.key}
+              onClick={() => {
+                navigate(`/${item.key}`);
+                closeDrawer();
+              }}
+              isDesktop={isDesktop}
+            >
+              {item.icon}
+              <span>{item.label}</span>
+            </SubmenuItem>
+          ))}
+        </div>
 
-        <MenuItem onClick={() => navigate("/checklist")}>
+        <MenuItem
+          onClick={() => {
+            navigate("/checklist");
+            closeDrawer();
+          }}
+        >
           <H4>언어평가 체크리스트</H4>
         </MenuItem>
       </MenuWrapper>
       {user ? (
-        <Space size={16}>
+        <Space size={16} style={{ display: "flex", flexDirection: "column" }}>
           <H4
             style={{
               whiteSpace: "nowrap",
@@ -86,6 +106,80 @@ function TopHeader(props) {
         <PrimaryButton onClick={() => navigate("/login")} size="large">
           로그인
         </PrimaryButton>
+      )}
+    </div>
+  );
+
+  return (
+    <HeaderContainer>
+      <Logo
+        size="24px"
+        style={{ cursor: "pointer" }}
+        onClick={() => navigate("/")}
+      >
+        Speech4All
+      </Logo>
+      {!isDesktop ? (
+        <>
+          <HamburgerMenu />
+          <BiMenu onClick={handleDrawerToggle} size="24px" />
+          <Drawer
+            title="메뉴"
+            placement="right"
+            onClose={closeDrawer}
+            visible={drawerVisible}
+            width={300}
+          >
+            {menuContent}
+          </Drawer>
+        </>
+      ) : (
+        <>
+          <MenuWrapper isDesktop={isDesktop}>
+            <MenuItem onClick={() => toggleSubmenu("kla")}>
+              <H4>KLA</H4>
+              <BiChevronDown size="24px" style={{ marginLeft: "4px" }} />
+              <Submenu isOpen={openSubmenu === "kla"}>
+                {submenuItems.kla.map((item) => (
+                  <SubmenuItem
+                    isDesktop={isDesktop}
+                    key={item.key}
+                    onClick={() => {
+                      navigate(`/${item.key}`);
+                    }}
+                  >
+                    {item.icon}
+                    <span>{item.label}</span>
+                  </SubmenuItem>
+                ))}
+              </Submenu>
+            </MenuItem>
+
+            <MenuItem onClick={() => navigate("/checklist")}>
+              <H4>언어평가 체크리스트</H4>
+            </MenuItem>
+          </MenuWrapper>
+          {user ? (
+            <Space size={16}>
+              <H4
+                style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  color: "var(--text-secondary)",
+                }}
+              >
+                {user.email}
+              </H4>
+              <SecondaryButton onClick={onLogout} size="large">
+                로그아웃
+              </SecondaryButton>
+            </Space>
+          ) : (
+            <PrimaryButton onClick={() => navigate("/login")} size="large">
+              로그인
+            </PrimaryButton>
+          )}
+        </>
       )}
     </HeaderContainer>
   );
@@ -116,15 +210,11 @@ const PageHeaderContainer = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 36px;
-
   box-sizing: border-box;
-  gap: 64px;
 
   max-width: 1280px;
   margin: 0 auto;
-
   width: 100%;
-
   border-bottom: 1px solid var(--border-component);
 `;
 
@@ -138,14 +228,24 @@ const HeaderContainer = styled.header`
   top: 0;
   left: 0;
   z-index: 1;
-  gap: 64px;
+  // gap: 64px;
 `;
 
 const MenuWrapper = styled.nav`
   display: flex;
   flex: 1;
-  gap: 32px;
+  gap: ${({ isDesktop }) => (isDesktop ? "32px" : "16px")};
+  flex-direction: ${({ isDesktop }) => (isDesktop ? "row" : "column")};
   justify-content: flex-start;
+  padding-left: ${({ isDesktop }) => (isDesktop ? "64px" : "0")};
+`;
+
+const HamburgerMenu = styled.div`
+  cursor: pointer;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  background-color: red;
 `;
 
 const Submenu = styled.div`
@@ -162,14 +262,11 @@ const Submenu = styled.div`
   flex-direction: column;
   gap: 8px;
   border-radius: 8px;
-
-  // 기본적으로 안 보이게 설정
   opacity: 0;
   transform: translateY(-10px);
   visibility: hidden;
   transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0.3s;
 
-  // isOpen이 true일 때 활성화
   ${({ isOpen }) =>
     isOpen &&
     `
@@ -195,6 +292,7 @@ const SubmenuItem = styled.div`
   cursor: pointer;
   transition: background 0.2s;
   border-radius: 10px;
+  font-size: 15px;
 
   &:hover {
     background: var(--bg-primary);

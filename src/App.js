@@ -59,25 +59,33 @@ function AppContent({ user, onLogout, onLogin }) {
   const showHeader = !hideHeaderRoutes.includes(location.pathname);
 
   return (
-    <div className="app-container">
+    <MainContainer>
       {showHeader && <Header user={user} onLogout={onLogout} />}
-      <MainContainer>
+      <PageWrapper>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/kla/*" element={<KLA user={user} />} />
           <Route path="/login" element={<Login onLogin={onLogin} />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>
-      </MainContainer>
+      </PageWrapper>
       {showHeader && <Footer />}
-    </div>
+    </MainContainer>
   );
 }
 
 const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+`;
+
+const PageWrapper = styled.div`
   min-width: 280px;
   width: 100%;
   margin: 0 auto;
+  flex: 1;
 `;
 
 export default App;
