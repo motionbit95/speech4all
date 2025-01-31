@@ -31,7 +31,7 @@ function TopHeader(props) {
     kla: [
       { key: "kla/intro", label: "소개 및 분석방법", icon: <BiHome /> },
       { key: "kla/input", label: "신규 발화 분석", icon: <BiEdit /> },
-      { key: "1-3", label: "분석 기록", icon: <BiFile /> },
+      { key: "kla/history", label: "분석 기록", icon: <BiFile /> },
     ],
   };
 
@@ -105,6 +105,7 @@ export function PageHeader(props) {
           {buttonText}
         </PrimaryButton>
       )}
+      {props.children}
     </PageHeaderContainer>
   );
 }

@@ -5,6 +5,9 @@ import Input from "./Input";
 import KLAInput from "../../components/KLA/KLAInput";
 import KLAResult from "../../components/KLA/KLAResult";
 import Result from "./Result";
+import KLAHistory from "../../components/KLA/KLAHistory";
+import ProtectedRoute from "../../ProtectedRoute";
+import History from "./History";
 
 function App(props) {
   const { user } = props;
@@ -15,6 +18,7 @@ function App(props) {
         <Route path="/intro" element={<Intro />} />
         <Route path="/input" element={<Input user={user} />} />
         <Route path="/result" element={<Result />} />
+        <Route path="/history" element={<History user={user} />} />
       </Routes>
     </div>
   );

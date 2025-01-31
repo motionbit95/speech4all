@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { analyzeText } from "../../components/KLA/process_transcription";
+import { Box, Button } from "@mui/material";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import KLAReportPage2 from "../../components/KLA/KLAReportPage2";
@@ -10,11 +11,12 @@ import KLAReportPage6 from "../../components/KLA/KLAReportPage6";
 import KLAReportPage7 from "../../components/KLA/KLAReportPage7";
 import KLAReportPage8 from "../../components/KLA/KLAReportPage8";
 import KLAReportPage9 from "../../components/KLA/KLAReportPage9";
-import { Button, Col, Pagination, Row, Space } from "antd";
+import { Col, Image, Pagination, Space, Typography } from "antd";
+import styled from "styled-components";
 import { PageHeader } from "../../component/Header";
 import { H1, H4 } from "../../component/Typography";
 import { PrimaryButton, SecondaryButton } from "../../component/Button";
-import styled from "styled-components";
+import { useMediaQuery } from "react-responsive";
 
 // 서버에 분석 결과와 PDF를 저장하는 함수
 const saveAnalysisToServer = async (
@@ -26,7 +28,7 @@ const saveAnalysisToServer = async (
   const formData = new FormData();
   formData.append("user_id", userId);
   formData.append("client_name", analysisData.info.name);
-  formData.append("client_birthday", analysisData.info.birthday); // 생년월일
+  formData.append("client_birthday", analysisData.info.birthday);
   formData.append("client_gender", analysisData.info.gender);
   formData.append("analysis_date", analysisData.info.examdate);
   formData.append("input_text", inputText);
@@ -53,17 +55,13 @@ const saveAnalysisToServer = async (
   }
 };
 
-function Result() {
+function KLAResult() {
   const location = useLocation();
   const { inputText, user } = location.state || { inputText: "", user: null };
-  console.log("user:", user);
+
+  const isMobile = useMediaQuery({ query: "(max-width: 576px)" });
 
   const [currentPage, setCurrentPage] = useState(1);
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-
   const [analysis, setAnalysis] = useState({
     info: {
       name: "",
@@ -79,7 +77,6 @@ function Result() {
       age_months: 0,
       utteranceType: "",
     },
-
     mlu_w: [0, 0, 0, 0],
     mlu_m: [0, 0, 0, 0],
     num_gram_types: [0, 0, 0, 0],
@@ -122,6 +119,7 @@ function Result() {
     num_word_tokens_pos: 0.0,
     ratio_word_pos: 0.0,
   });
+  const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
     if (inputText) {
@@ -129,6 +127,14 @@ function Result() {
       setAnalysis(result);
     }
   }, [inputText]);
+
+  const thumbnailRefs2 = useRef();
+  const thumbnailRefs3 = useRef();
+  const thumbnailRefs4 = useRef();
+  const thumbnailRefs6 = useRef([]); // 배열 형태로 초기화
+  const thumbnailRefs7 = useRef([]);
+  const thumbnailRefs8 = useRef([]);
+  const thumbnailRefs9 = useRef([]);
 
   const pageRefs2 = useRef();
   const pageRefs3 = useRef();
@@ -154,9 +160,15 @@ function Result() {
     };
   }, []);
 
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
   const generatePDF = async () => {
+    setIsExporting(true);
     const pdf = new jsPDF("p", "mm", "a4");
     const pdfWidth = 210;
+
+    // Wait for a brief moment to ensure elements are ready
+    await delay(500);
 
     const allRefs = [
       pageRefs2.current,
@@ -168,35 +180,41 @@ function Result() {
       ...pageRefs9.current,
     ];
 
-    const canvases = await Promise.all(
-      allRefs.map((ref) => {
-        if (ref) {
-          return html2canvas(ref, {
-            scale: 2,
-            useCORS: true,
-            logging: true,
-            windowWidth: ref.scrollWidth,
-            windowHeight: ref.scrollHeight,
-          });
+    try {
+      const canvases = await Promise.all(
+        allRefs.map((ref) =>
+          ref
+            ? html2canvas(ref, {
+                scale: 2,
+                useCORS: true,
+                logging: true,
+                windowWidth: ref.scrollWidth,
+                windowHeight: ref.scrollHeight,
+              })
+            : Promise.resolve(null)
+        )
+      );
+
+      canvases.forEach((canvas, index) => {
+        if (canvas) {
+          const imgData = canvas.toDataURL("image/jpeg", 0.75);
+          const imgWidth = pdfWidth;
+          const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+
+          if (index > 0) {
+            pdf.addPage();
+          }
+          pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
         }
-        return Promise.resolve(null);
-      })
-    );
+      });
 
-    canvases.forEach((canvas, index) => {
-      if (canvas) {
-        const imgData = canvas.toDataURL("image/jpeg", 0.75);
-        const imgWidth = pdfWidth;
-        const imgHeight = (canvas.height * pdfWidth) / canvas.width;
-
-        if (index > 0) {
-          pdf.addPage();
-        }
-        pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
-      }
-    });
-
-    return pdf;
+      return pdf;
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      return null;
+    } finally {
+      setIsExporting(false);
+    }
   };
 
   const downloadPDF = async () => {
@@ -215,28 +233,25 @@ function Result() {
   };
 
   return (
-    <div>
+    <Box sx={{ padding: 3, height: "100vh", overflowY: "auto" }}>
       <PageHeader title="결과 보고서" />
 
       <IndicatorContainer>
-        {/* 왼쪽 영역 */}
         <SideComponent align="flex-start">
           <H4>report.pdf</H4>
         </SideComponent>
 
-        {/* 가운데 영역 */}
         <PaginationWrapper>
           <Pagination
             simple
             defaultCurrent={1}
-            total={3}
+            total={7} // Update this to reflect the actual number of pages you have
             pageSize={1}
             hideOnSinglePage
-            onChange={handlePageChange}
+            onChange={(page) => setCurrentPage(page)}
           />
         </PaginationWrapper>
 
-        {/* 오른쪽 영역 */}
         <SideComponent align="flex-end">
           <Space>
             <SecondaryButton size="large" onClick={handleSave}>
@@ -248,103 +263,181 @@ function Result() {
           </Space>
         </SideComponent>
       </IndicatorContainer>
+
       <PageContainer>
-        <Col span={6} style={{ minWidth: "300px" }}>
-          <PreviewContainer direction="vertical">
-            <KLAReportPage2 ref={pageRefs2} customData={analysis} />
-            <KLAReportPage3 ref={pageRefs3} customData={analysis} />
-            <KLAReportPage4 ref={pageRefs4} customData={analysis} />
-            <KLAReportPage6 ref={pageRefs6} customData={analysis} />
-            <KLAReportPage7 ref={pageRefs7} customData={analysis} />
-            <KLAReportPage8 ref={pageRefs8} customData={analysis} />
-            <KLAReportPage9 ref={pageRefs9} customData={analysis} />
+        <Col
+          span={isMobile ? 24 : 6}
+          style={{
+            maxWidth: isMobile ? "100%" : "300px",
+          }}
+        >
+          <PreviewContainer scale={isMobile ? 0.4 : 0.3} direction="vertical">
+            <PreviewWrapper
+              onClick={() => setCurrentPage(1)}
+              isSelected={currentPage === 1}
+            >
+              <KLAReportPage2 ref={thumbnailRefs2} customData={analysis} />
+            </PreviewWrapper>
+            <PreviewWrapper
+              onClick={() => setCurrentPage(2)}
+              isSelected={currentPage === 2}
+            >
+              <KLAReportPage3 ref={thumbnailRefs3} customData={analysis} />
+            </PreviewWrapper>
+            <PreviewWrapper
+              onClick={() => setCurrentPage(3)}
+              isSelected={currentPage === 3}
+            >
+              <KLAReportPage4 ref={thumbnailRefs4} customData={analysis} />
+            </PreviewWrapper>
+            <PreviewWrapper
+              onClick={() => setCurrentPage(4)}
+              isSelected={currentPage === 4}
+            >
+              <KLAReportPage6 ref={thumbnailRefs6} customData={analysis} />
+            </PreviewWrapper>
+            <PreviewWrapper
+              onClick={() => setCurrentPage(5)}
+              isSelected={currentPage === 5}
+            >
+              <KLAReportPage7 ref={thumbnailRefs7} customData={analysis} />
+            </PreviewWrapper>
+            <PreviewWrapper
+              onClick={() => setCurrentPage(6)}
+              isSelected={currentPage === 6}
+            >
+              <KLAReportPage8 ref={thumbnailRefs8} customData={analysis} />
+            </PreviewWrapper>
+            <PreviewWrapper
+              onClick={() => setCurrentPage(7)}
+              isSelected={currentPage === 7}
+            >
+              <KLAReportPage9 ref={thumbnailRefs9} customData={analysis} />
+            </PreviewWrapper>
           </PreviewContainer>
         </Col>
-        <Col span={18}>
+
+        <Col span={18} style={{ display: isMobile ? "none" : "block" }}>
           <DetailContainer>
-            {/* ref 배열을 통해 각 페이지에 ref를 설정 */}
-            <DetailWrapper isSelect={currentPage === 1}>
+            <DetailWrapper
+              isSelect={currentPage === 1}
+              isExporting={isExporting}
+            >
               <KLAReportPage2 ref={pageRefs2} customData={analysis} />
             </DetailWrapper>
-            <DetailWrapper isSelect={currentPage === 2}>
+            <DetailWrapper
+              isSelect={currentPage === 2}
+              isExporting={isExporting}
+            >
               <KLAReportPage3 ref={pageRefs3} customData={analysis} />
             </DetailWrapper>
-            <DetailWrapper isSelect={currentPage === 3}>
+            <DetailWrapper
+              isSelect={currentPage === 3}
+              isExporting={isExporting}
+            >
               <KLAReportPage4 ref={pageRefs4} customData={analysis} />
             </DetailWrapper>
-            <DetailWrapper isSelect={currentPage === 4}>
+            <DetailWrapper
+              isSelect={currentPage === 4}
+              isExporting={isExporting}
+            >
               <KLAReportPage6 ref={pageRefs6} customData={analysis} />
             </DetailWrapper>
-            <DetailWrapper isSelect={currentPage === 5}>
+            <DetailWrapper
+              isSelect={currentPage === 5}
+              isExporting={isExporting}
+            >
               <KLAReportPage7 ref={pageRefs7} customData={analysis} />
             </DetailWrapper>
-            <DetailWrapper isSelect={currentPage === 6}>
+            <DetailWrapper
+              isSelect={currentPage === 6}
+              isExporting={isExporting}
+            >
               <KLAReportPage8 ref={pageRefs8} customData={analysis} />
             </DetailWrapper>
-            <DetailWrapper isSelect={currentPage === 7}>
+            <DetailWrapper
+              isSelect={currentPage === 7}
+              isExporting={isExporting}
+            >
               <KLAReportPage9 ref={pageRefs9} customData={analysis} />
             </DetailWrapper>
           </DetailContainer>
         </Col>
       </PageContainer>
-    </div>
+    </Box>
   );
 }
 
 const IndicatorContainer = styled.div`
   display: flex;
-  align-items: center; /* 세로 중앙 정렬 */
-  justify-content: space-between; /* 양쪽 컴포넌트를 끝으로 배치 */
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
   padding: 16px 24px;
-  box-sizing: border-box;
   background-color: var(--bg-disable);
 `;
 
 const SideComponent = styled.div`
-  flex: 1; /* 양쪽 컴포넌트 크기를 동일하게 유지 */
+  flex: 1;
   display: flex;
-  justify-content: ${({ align }) =>
-    align || "flex-start"}; /* 왼쪽 또는 오른쪽 정렬 */
+  justify-content: ${({ align }) => align || "flex-start"};
 `;
 
 const PaginationWrapper = styled.div`
-  flex: 2; /* 가운데 공간을 더 넓게 */
+  flex: 2;
   display: flex;
-  justify-content: center; /* 가로 중앙 정렬 */
+  justify-content: center;
 `;
 
 const PageContainer = styled.div`
   display: flex;
-  flex-direction: row;
   max-width: 1280px;
   margin: 0 auto;
   gap: 16px;
+
+  height: ${1123 + 120}px;
+  overflow: hidden;
 `;
 
 const PreviewContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 64px;
-  box-sizing: border-box;
-  scale: 0.3;
   transform-origin: top left;
+  transform: scale(${(props) => props.scale});
+  width: calc(100% * (1 / ${(props) => props.scale}));
+  align-items: center;
+  height: ${(props) => (1123 + 120) * (1 / props.scale)}px;
+  overflow: scroll;
+
+  minwidth: 300px;
+`;
+
+const PreviewWrapper = styled.div`
+  cursor: pointer;
+  background-color: ${(props) =>
+    props.isSelected ? "var(--bg-primary)" : "transparent"};
   width: 100%;
-  height: ${1123}px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  height: ${(props) => (1123 + 120) * (1 / props.scale)}px;
 `;
 
 const DetailContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
-  padding: 10px;
 `;
 
 const DetailWrapper = styled.div`
-  display: ${({ isSelect }) => (isSelect ? "flex" : "none")};
+  display: flex;
+  visibility: ${({ isExporting, isSelect }) =>
+    isExporting || isSelect
+      ? "visible"
+      : "hidden"}; // Only visible when exporting or selected
+  position: absolute; // Prevent layout shifts
 `;
 
-export default Result;
+export default KLAResult;
