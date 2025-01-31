@@ -33,7 +33,7 @@ const saveAnalysisToServer = async (
   formData.append("analysis_date", analysisData.info.examdate);
   formData.append("input_text", inputText);
   formData.append("analysis_result", JSON.stringify(analysisData));
-  formData.append("pdf_file", pdfBlob, `${analysisData.info.name}_report.pdf`);
+  formData.append("pdf_path", pdfBlob, `${analysisData.info.name}_report.pdf`);
 
   try {
     const response = await fetch(

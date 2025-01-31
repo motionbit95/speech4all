@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import { FaTrash, FaFilePdf } from "react-icons/fa";
+import { FaTrash, FaFilePdf, FaDownload } from "react-icons/fa";
 import "../../components/KLA/KLAHistory.css";
 import { PageHeader } from "../../component/Header";
-import { Button, Pagination, Select, Table } from "antd";
+import { Button, Pagination, Select, Space, Table } from "antd";
 import styled from "styled-components";
 
 function History({ user }) {
@@ -133,13 +133,19 @@ function History({ user }) {
               title: "보고서",
               dataIndex: "pdf_path",
               key: "pdf_path",
-              render: (_, record) =>
+              render: (text, record) =>
                 record.pdf_path ? (
-                  <button onClick={() => handleDownloadPDF(record)}>
-                    <FaFilePdf />
-                  </button>
+                  <Space
+                    style={{ cursor: "pointer" }}
+                    onClick={() => handleDownloadPDF(record)}
+                  >
+                    <FaFilePdf color="var(--text-secondary)" />
+                    <span>{`${record.client_name}_report.pdf`}</span>
+                  </Space>
                 ) : (
-                  <span>파일이 없습니다.</span>
+                  <span style={{ color: "var(--text-secondary)" }}>
+                    파일이 없습니다.
+                  </span>
                 ),
             },
             {

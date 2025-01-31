@@ -5,7 +5,21 @@ const cors = require("cors");
 const bcrypt = require("bcryptjs"); // bcryptjs로 변경
 require("dotenv").config();
 const multer = require("multer");
-const upload = multer();
+const { v4: uuidv4 } = require("uuid");
+const path = require("path");
+const fs = require("fs");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    const uniqueName = uuidv4() + path.extname(file.originalname); // Unique file name
+    cb(null, uniqueName);
+  },
+});
+
+const upload = multer({ storage: storage });
 
 const app = express();
 app.use(bodyParser.json());
@@ -110,7 +124,7 @@ app.post("/api/logout", (req, res) => {
 });
 
 // 분석 결과 저장 API
-app.post("/api/saveAnalysis", upload.single("pdf_file"), async (req, res) => {
+app.post("/api/saveAnalysis", upload.single("pdf_path"), async (req, res) => {
   const {
     user_id,
     client_name,
@@ -124,8 +138,8 @@ app.post("/api/saveAnalysis", upload.single("pdf_file"), async (req, res) => {
   try {
     const query = `
       INSERT INTO data 
-      (user_id, client_name, client_birthday, client_gender, analysis_date, input_text, analysis_result) 
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      (user_id, client_name, client_birthday, client_gender, analysis_date, input_text, analysis_result, pdf_path) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     console.log(
@@ -135,7 +149,8 @@ app.post("/api/saveAnalysis", upload.single("pdf_file"), async (req, res) => {
       client_gender,
       analysis_date,
       input_text,
-      JSON.stringify(analysis_result)
+      JSON.stringify(analysis_result),
+      req.file.filename
     );
 
     const [result] = await db
@@ -148,6 +163,7 @@ app.post("/api/saveAnalysis", upload.single("pdf_file"), async (req, res) => {
         analysis_date,
         input_text,
         JSON.stringify(analysis_result),
+        req.file.filename,
       ]);
 
     res.status(201).json({
@@ -193,6 +209,35 @@ app.delete("/api/history/:id", async (req, res) => {
   } catch (error) {
     console.error("삭제 실패:", error);
     res.status(500).json({ message: "서버 오류: 삭제 실패" });
+  }
+});
+
+app.get("/api/downloadPDF/:dataId", async (req, res) => {
+  const { dataId } = req.params;
+  const query = "SELECT pdf_path FROM data WHERE id = ?";
+  const [result] = await db.promise().query(query, [dataId]);
+  const pdfFileName = result[0].pdf_path;
+
+  if (!pdfFileName) {
+    return res.status(404).json({ message: "PDF 파일이 존재하지 않습니다." });
+  }
+
+  // Construct the full path to the PDF file in the 'uploads' directory
+  const pdfFilePath = path.join(__dirname, "uploads", pdfFileName);
+
+  // Check if the file exists
+  if (fs.existsSync(pdfFilePath)) {
+    // Send the file to the client
+    res.download(pdfFilePath, pdfFileName, (err) => {
+      if (err) {
+        console.error("파일 다운로드 중 오류 발생:", err);
+        res
+          .status(500)
+          .json({ message: "파일 다운로드 중 오류가 발생했습니다." });
+      }
+    });
+  } else {
+    res.status(404).json({ message: "PDF 파일을 찾을 수 없습니다." });
   }
 });
 
