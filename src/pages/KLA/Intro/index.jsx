@@ -156,7 +156,7 @@ const HeroContainer = styled.div`
   flex-direction: ${({ isDesktop }) => (isDesktop ? "row" : "column")};
   align-items: flex-start;
   box-sizing: border-box;
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
 `;
 

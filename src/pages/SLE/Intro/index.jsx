@@ -4,10 +4,14 @@ import styled from "styled-components";
 import { H1, H2 } from "../../../component/Typography";
 import { DarkButton } from "../../../component/Button";
 import { KLAIntroImage, SLEIntroImage } from "../../../assets/images";
-import { Image, Tabs } from "antd";
+import { Col, Image, Row, Tabs } from "antd";
 import MessageBox from "../../../component/MessageBox";
 import { BiInfoCircle } from "react-icons/bi";
-import { DescriptionCard, ServiceCard } from "../../../component/Card";
+import {
+  DescriptionCard,
+  ServiceCard,
+  VisionCard,
+} from "../../../component/Card";
 import {
   PaperCoachIcon,
   PaperConsultantIcon,
@@ -51,7 +55,6 @@ const Intro = () => {
       />
       <ServiceSection isDesktop={isDesktop} />
       <GuideSection isDesktop={isDesktop} />
-      <CollectionMethodSection isDesktop={isDesktop} items={items} />
       <MessageBox
         width="400px"
         centered
@@ -139,28 +142,43 @@ const ServiceSection = ({ isDesktop }) => (
 const GuideSection = ({ isDesktop }) => (
   <GuideContainer isDesktop={isDesktop}>
     <TitleWrapper>
-      <H2 style={{ fontSize: "30px" }}>KLA 사용방법</H2>
-      <SubText>
-        {`대상자 또는 상대 대화자의 발화를 전사한 후 어절과 문법형태소 경계를 나누어주면, KLA가 자동적으로 분석결과를 알려줍니다. 
-낱말은 띄어쓰기 경계로, 문법형태소는 /로 표시합니다.`}
-      </SubText>
+      <H2 style={{ fontSize: "30px" }}>체크리스트 개발 배경 및 활용 안내</H2>
     </TitleWrapper>
-    <UsageInstructions />
+    <Row gutter={[16, 16]}>
+      <Col xs={24} md={8}>
+        <VisionCard
+          iconType={"emoji"}
+          icon={"📝"}
+          title={"체크리스트 개발 목적"}
+        >
+          <li>
+            만 5~6세 아동의 말·언어 발달과 문해 기초 능력을 조기에 선별하기 위해
+            개발되었습니다.
+          </li>
+        </VisionCard>
+      </Col>
+      <Col xs={24} md={8}>
+        <VisionCard iconType={"emoji"} icon={"📊"} title={"결과 보고서 제공"}>
+          <li>
+            체크리스트 결과를 보고서 형식으로 제공하여, 아동의 언어발달 상태를
+            쉽게 확인할 수 있습니다.
+          </li>
+        </VisionCard>
+      </Col>
+      <Col xs={24} md={8}>
+        <VisionCard
+          iconType={"emoji"}
+          icon={"🔍"}
+          title={"심층 검사 및 조기 중재 지원"}
+        >
+          <li>
+            발달 지연이 의심되는 아동을 조기에 발견하고, 심층 검사 및 예방적
+            개입을 통해 적절한 지원을 제공합니다.
+          </li>
+        </VisionCard>
+      </Col>
+    </Row>
   </GuideContainer>
-);
-
-const CollectionMethodSection = ({ isDesktop, items }) => (
-  <div style={{ backgroundColor: "var(--bg-light)" }}>
-    <CaseContainer isDesktop={isDesktop}>
-      <TitleWrapper>
-        <H2 style={{ fontSize: "30px" }}>자료수집방법</H2>
-        <SubText>
-          연령대별 측정치 준거를 비교하기 위한 자료 수집 방법에 대한 안내입니다.
-        </SubText>
-      </TitleWrapper>
-      <Tabs defaultActiveKey="1" items={items} />
-    </CaseContainer>
-  </div>
 );
 
 const HeroContainer = styled.div`
@@ -171,7 +189,7 @@ const HeroContainer = styled.div`
   flex-direction: ${({ isDesktop }) => (isDesktop ? "row" : "column")};
   align-items: flex-start;
   box-sizing: border-box;
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
 `;
 
@@ -196,7 +214,9 @@ const ButtonContainer = styled.div`
 `;
 
 const ServiceContainer = styled.div`
-  padding: ${({ isDesktop }) => (isDesktop ? "128px 72px" : "64px 48px")};
+  padding: ${({ isDesktop }) => (isDesktop ? "128px 72px" : "64px 24px")};
+  box-sizing: border-box;
+
   gap: 64px;
   display: flex;
   flex-direction: column;
@@ -206,6 +226,9 @@ const ServiceContainer = styled.div`
 `;
 
 const ServiceWrapper = styled.div`
+  max-width: 1280px;
+  margin: 0 auto;
+
   gap: 32px;
   display: flex;
   flex-direction: ${({ isDesktop }) => (isDesktop ? "row" : "column")};
@@ -229,16 +252,7 @@ const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-`;
-
-const CaseContainer = styled.div`
-  padding: ${({ isDesktop }) => (isDesktop ? "128px 72px" : "64px 24px")};
-  gap: 16px;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  max-width: 1280px;
-  margin: 0 auto;
+  align-items: center;
 `;
 
 export default Intro;

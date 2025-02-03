@@ -122,7 +122,7 @@ const VisionContainer = styled.div`
   box-sizing: border-box;
   height: 100%;
 
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
 `;
 

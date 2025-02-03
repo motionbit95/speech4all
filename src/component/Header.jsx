@@ -82,14 +82,25 @@ function TopHeader(props) {
           ))}
         </div>
 
-        <MenuItem
-          onClick={() => {
-            navigate("/checklist");
-            closeDrawer();
-          }}
-        >
+        <MenuItem onClick={() => toggleSubmenu("sle")}>
           <H4>말 언어 문해기초 선별 체크리스트</H4>
+          <BiChevronDown size="24px" style={{ marginLeft: "4px" }} />
         </MenuItem>
+        <div style={{ display: openSubmenu === "sle" ? "block" : "none" }}>
+          {submenuItems.sle.map((item) => (
+            <SubmenuItem
+              key={item.key}
+              onClick={() => {
+                navigate(`/${item.key}`);
+                closeDrawer();
+              }}
+              isDesktop={isDesktop}
+            >
+              {item.icon}
+              <span>{item.label}</span>
+            </SubmenuItem>
+          ))}
+        </div>
       </MenuWrapper>
       {user ? (
         <Space size={16} style={{ display: "flex", flexDirection: "column" }}>

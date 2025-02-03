@@ -2,7 +2,7 @@ import { Divider, Image } from "antd";
 import React from "react";
 import { ChatIcon } from "../assets/icons";
 import styled from "styled-components";
-import { H3 } from "./Typography";
+import { H1, H3 } from "./Typography";
 import { useMediaQuery } from "react-responsive";
 
 function Card(props) {
@@ -10,7 +10,7 @@ function Card(props) {
 }
 
 export function VisionCard(props) {
-  const { icon, title } = props;
+  const { iconType, icon, title } = props;
   return (
     <CardContainer>
       <div
@@ -20,7 +20,11 @@ export function VisionCard(props) {
           height: "64px",
         }}
       >
-        <Image preview={false} src={icon} />
+        {iconType === "emoji" ? (
+          <H1 style={{ fontSize: "48px" }}>{icon}</H1>
+        ) : (
+          <Image preview={false} src={icon} />
+        )}
       </div>
       <CardHeader>{title}</CardHeader>
       <Divider
