@@ -38,6 +38,10 @@ function TopHeader(props) {
       { key: "kla/input", label: "신규 발화 분석", icon: <BiEdit /> },
       { key: "kla/history", label: "분석 기록", icon: <BiFile /> },
     ],
+    sle: [
+      { key: "sle/intro", label: "체크리스트 소개", icon: <BiHome /> },
+      { key: "sle/input", label: "분석하기", icon: <BiEdit /> },
+    ],
   };
 
   const handleDrawerToggle = () => {
@@ -84,7 +88,7 @@ function TopHeader(props) {
             closeDrawer();
           }}
         >
-          <H4>언어평가 체크리스트</H4>
+          <H4>말 언어 문해기초 선별 체크리스트</H4>
         </MenuItem>
       </MenuWrapper>
       {user ? (
@@ -155,8 +159,23 @@ function TopHeader(props) {
               </Submenu>
             </MenuItem>
 
-            <MenuItem onClick={() => navigate("/checklist")}>
-              <H4>언어평가 체크리스트</H4>
+            <MenuItem onClick={() => toggleSubmenu("sle")}>
+              <H4>말 언어 문해기초 선별 체크리스트</H4>
+              <BiChevronDown size="24px" style={{ marginLeft: "4px" }} />
+              <Submenu isOpen={openSubmenu === "sle"}>
+                {submenuItems.sle.map((item) => (
+                  <SubmenuItem
+                    isDesktop={isDesktop}
+                    key={item.key}
+                    onClick={() => {
+                      navigate(`/${item.key}`);
+                    }}
+                  >
+                    {item.icon}
+                    <span>{item.label}</span>
+                  </SubmenuItem>
+                ))}
+              </Submenu>
             </MenuItem>
           </MenuWrapper>
           {user ? (

@@ -121,6 +121,9 @@ const VisionContainer = styled.div`
   align-items: center;
   box-sizing: border-box;
   height: 100%;
+
+  max-width: 1200px;
+  margin: 0 auto;
 `;
 
 const SubText = styled.div`

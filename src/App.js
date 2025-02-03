@@ -8,7 +8,6 @@ import {
 import axios from "axios";
 import "./App.css";
 import "./assets/styles/global.css";
-// import KLA from "./components/KLA/KLA";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { ConfigProvider } from "antd";
@@ -18,6 +17,7 @@ import Header from "./component/Header";
 import Footer from "./component/Footer";
 import Home from "./pages/Home";
 import KLA from "./pages/KLA";
+import SLE from "./pages/SLE";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -65,6 +65,7 @@ function AppContent({ user, onLogout, onLogin }) {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/kla/*" element={<KLA user={user} />} />
+          <Route path="/sle/*" element={<SLE user={user} />} />
           <Route path="/login" element={<Login onLogin={onLogin} />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>

@@ -64,6 +64,19 @@ export function ServiceCard(props) {
   );
 }
 
+export function DescriptionCard(props) {
+  const { title } = props;
+  const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
+  return (
+    <ServiceCardContainer isDesktop={isDesktop}>
+      <CardHeader style={{ alignItems: "flex-start", width: "100%" }}>
+        📌 {title}
+      </CardHeader>
+      <CardBody>{props.children}</CardBody>
+    </ServiceCardContainer>
+  );
+}
+
 const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
