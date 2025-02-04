@@ -8,6 +8,7 @@ const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
 const path = require("path");
 const fs = require("fs");
+const { templeteHTML } = require("./templete");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -238,6 +239,43 @@ app.get("/api/downloadPDF/:dataId", async (req, res) => {
     });
   } else {
     res.status(404).json({ message: "PDF 파일을 찾을 수 없습니다." });
+  }
+});
+
+// POST 요청으로 RTF 텍스트를 받아서 HTML로 변환
+app.post("/api/convert-rtf", (req, res) => {
+  const { data } = req.body; // 요청 본문에서 RTF 텍스트를 받음
+
+  if (!data) {
+    return res.status(400).send("RTF content is required");
+  }
+
+  try {
+    let updatedContent = templeteHTML;
+
+    updatedContent = updatedContent.replace("{LOCATION}", data.info.region);
+    updatedContent = updatedContent.replace(
+      "{ORGANIZE}",
+      data.info.institution
+    );
+    updatedContent = updatedContent.replace(
+      "{TEACHERNAME}",
+      data.info.examiner
+    );
+    updatedContent = updatedContent.replace("{DATE}", data.examdate);
+    updatedContent = updatedContent.replace("{GENDER}", data.info.gender);
+    updatedContent = updatedContent.replace("{CHILDENNAME}", data.info.name);
+    updatedContent = updatedContent.replace(
+      "{TOTALSCORE}",
+      data.categoryAScore + data.categoryBScore
+    );
+    updatedContent = updatedContent.replace("{SCOREA}", data.categoryAScore);
+    updatedContent = updatedContent.replace("{SCOREB}", data.categoryBScore);
+
+    res.send(updatedContent);
+  } catch (error) {
+    console.error("Error converting RTF:", error);
+    res.status(500).send("Error converting RTF text to HTML");
   }
 });
 
