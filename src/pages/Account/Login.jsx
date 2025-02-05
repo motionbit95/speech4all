@@ -57,7 +57,7 @@ function Login(props) {
           로그인
         </PrimaryButton>
         {/* 아직 미구현된 기능입니다. */}
-        <FindPassword>아이디 / 비밀번호 찾기</FindPassword>
+        {/* <FindPassword>아이디 / 비밀번호 찾기</FindPassword> */}
       </LoginForm>
       <LoginWrapper>
         <>계정이 없으신가요?</>

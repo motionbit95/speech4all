@@ -13,6 +13,7 @@ import styled from "styled-components";
 import { H2, H3, H4, H5 } from "../../../component/Typography";
 import { BiInfoCircle } from "react-icons/bi";
 import { ExampleImage } from "../../../assets/images";
+import { useMediaQuery } from "react-responsive";
 
 function UsageInstructions(props) {
   const [step, setStep] = React.useState(1);
@@ -67,8 +68,9 @@ export function MobileUsageInstructions(props) {
 export default UsageInstructions;
 
 const Step1 = () => {
+  const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
   return (
-    <StepContainer>
+    <StepContainer isDesktop={isDesktop}>
       <Space>
         <H3>정보 입력</H3>
       </Space>
@@ -99,8 +101,9 @@ const Step1 = () => {
 };
 
 const Step2 = () => {
+  const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
   return (
-    <StepContainer>
+    <StepContainer isDesktop={isDesktop}>
       <Space>
         <H3>발화 전사 입력</H3>
         <Popover
@@ -191,8 +194,9 @@ const Step2 = () => {
 };
 
 const Step3 = () => {
+  const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
   return (
-    <StepContainer>
+    <StepContainer isDesktop={isDesktop}>
       <Space>
         <H3>분석 결과 확인</H3>
       </Space>
@@ -306,7 +310,7 @@ const StepContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 24px;
-  padding: ${({ isDesktop }) => (isDesktop ? "24px" : "8px")};
+  padding: ${({ isDesktop }) => (isDesktop ? "32px" : "16px")};
   box-sizing: border-box;
   background-color: var(--bg-body);
   width: 100%;

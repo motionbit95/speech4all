@@ -6,17 +6,26 @@ import { MainImage } from "../../assets/images";
 import { PrimaryButton } from "../../component/Button";
 import { PasswordInput, TextInput } from "../../component/Input";
 import { H3, H4 } from "../../component/Typography";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
   const [form] = Form.useForm();
   const isDesktop = useMediaQuery({ query: "(min-width: 576px)" });
+  const navigate = useNavigate();
 
   return (
     <Row>
       <Col span={isDesktop ? 12 : 0}>{isDesktop && <ImageContainer />}</Col>
       <Col span={isDesktop ? 12 : 24}>
         <SignupWrapper>
-          <div>이미 계정이 있으신가요?</div> <Login>로그인하기</Login>
+          <div>이미 계정이 있으신가요?</div>{" "}
+          <Login
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            로그인하기
+          </Login>
         </SignupWrapper>
         <SignupContainer>
           <H3>회원정보를 입력해주세요.</H3>
