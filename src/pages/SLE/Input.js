@@ -204,7 +204,7 @@ const Input = () => {
     <>
       {step === 1 && (
         <PageContainer>
-          <PageHeader title="말 언어 문해기초 선별 체크리스트 (Speech Language Early Literacy Screening Checklist)" />
+          <PageHeader title="말 언어 문해기초 선별 체크리스트" />
           <AlertContainer
             message={
               <AlertTitleWrapper>
@@ -390,7 +390,7 @@ const Input = () => {
       {step === 2 && (
         <PageContainer>
           <div style={{ position: "sticky", top: "68px", zIndex: "1" }}>
-            <PageHeader title="말 언어 문해기초 선별 체크리스트 (Speech Language Early Literacy Screening Checklist)" />
+            <PageHeader title="말 언어 문해기초 선별 체크리스트" />
             {/* Progress Bar */}
             <Progress
               percent={progressPercentage}

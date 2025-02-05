@@ -64,8 +64,9 @@ const Intro = () => {
         title={"사용권 구매가 필요합니다"}
         children={
           <SubText>
-            프로그램 분석 사용권 구입을 희망하시는
-            경우\ngpspeech4all@gmail.com로 연락주세요.
+            {
+              "프로그램 분석 사용권 구입을 희망하시는 경우\ngpspeech4all@gmail.com로 연락주세요."
+            }
           </SubText>
         }
       />

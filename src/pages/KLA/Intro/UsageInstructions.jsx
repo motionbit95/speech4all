@@ -39,6 +39,31 @@ function UsageInstructions(props) {
   );
 }
 
+export function MobileUsageInstructions(props) {
+  const [step, setStep] = React.useState(1);
+  return (
+    <MobileUsageInstructionsContainer>
+      <NavigationContainer style={{ padding: "0px", width: "100%" }}>
+        <NavigationButton active={step === 1} onClick={() => setStep(1)}>
+          <H5>1단계</H5>
+          <H4>정보 입력</H4>
+        </NavigationButton>
+        {step === 1 && <Step1 />}
+        <NavigationButton active={step === 2} onClick={() => setStep(2)}>
+          <H5>2단계</H5>
+          <H4>발화 전사 입력</H4>
+        </NavigationButton>
+        {step === 2 && <Step2 />}
+        <NavigationButton active={step === 3} onClick={() => setStep(3)}>
+          <H5>3단계</H5>
+          <H4>분석 결과 확인</H4>
+        </NavigationButton>
+        {step === 3 && <Step3 />}
+      </NavigationContainer>
+    </MobileUsageInstructionsContainer>
+  );
+}
+
 export default UsageInstructions;
 
 const Step1 = () => {
@@ -215,6 +240,16 @@ const Step3 = () => {
   );
 };
 
+const MobileUsageInstructionsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 16px;
+  overflow: hidden;
+  height: 100%;
+  flex: 1;
+`;
+
 const UsageInstructionsContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -271,7 +306,7 @@ const StepContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 24px;
-  padding: 24px;
+  padding: ${({ isDesktop }) => (isDesktop ? "24px" : "8px")};
   box-sizing: border-box;
   background-color: var(--bg-body);
   width: 100%;

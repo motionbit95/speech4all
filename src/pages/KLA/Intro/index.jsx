@@ -14,7 +14,9 @@ import {
   PaperMentorIcon,
 } from "../../../assets/icons";
 import { Spontaneous, Story, Write } from "./CollectionMethod";
-import UsageInstructions from "./UsageInstructions";
+import UsageInstructions, {
+  MobileUsageInstructions,
+} from "./UsageInstructions";
 
 const Intro = () => {
   const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
@@ -61,8 +63,9 @@ const Intro = () => {
         title={"사용권 구매가 필요합니다"}
         children={
           <SubText>
-            프로그램 분석 사용권 구입을 희망하시는
-            경우\ngpspeech4all@gmail.com로 연락주세요.
+            {
+              "프로그램 분석 사용권 구입을 희망하시는 경우\ngpspeech4all@gmail.com로 연락주세요."
+            }
           </SubText>
         }
       />
@@ -130,7 +133,7 @@ const GuideSection = ({ isDesktop }) => (
 낱말은 띄어쓰기 경계로, 문법형태소는 /로 표시합니다.`}
       </SubText>
     </TitleWrapper>
-    <UsageInstructions />
+    {isDesktop ? <UsageInstructions /> : <MobileUsageInstructions />}
   </GuideContainer>
 );
 
@@ -154,7 +157,7 @@ const HeroContainer = styled.div`
   gap: 32px;
   display: flex;
   flex-direction: ${({ isDesktop }) => (isDesktop ? "row" : "column")};
-  align-items: flex-start;
+  align-items: center;
   box-sizing: border-box;
   max-width: 1280px;
   margin: 0 auto;
@@ -162,9 +165,13 @@ const HeroContainer = styled.div`
 
 const HeroWrapper = styled.div`
   padding: 0 24px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 32px;
+
+  width: 100%;
+  align-items: ${({ isDesktop }) => (isDesktop ? "flex-start" : "center")};
 `;
 
 const SubText = styled.div`

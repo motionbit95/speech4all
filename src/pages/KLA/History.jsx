@@ -107,6 +107,7 @@ function History({ user }) {
       </PageHeader>
       <TableContainer>
         <Table
+          scroll={{ x: "max-content" }}
           dataSource={history}
           columns={[
             {
