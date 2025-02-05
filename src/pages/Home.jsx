@@ -11,7 +11,7 @@ import { VisionCard } from "../component/Card";
 import { B3, H1, H2 } from "../component/Typography";
 import { DarkButton } from "../component/Button";
 import { visionItems } from "../data/visionData";
-import { useAnimatedInView } from "../hooks/useAnimatedInView";
+import { useAnimatedInView } from "../hook/useAnimationInView";
 
 const Home = () => {
   const navigate = useNavigate();

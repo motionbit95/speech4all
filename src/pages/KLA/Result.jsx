@@ -62,6 +62,7 @@ function KLAResult() {
   const isMobile = useMediaQuery({ query: "(max-width: 576px)" });
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [subPage, setSubPage] = useState(1);
   const [analysis, setAnalysis] = useState({
     info: {
       name: "",
@@ -299,11 +300,15 @@ function KLAResult() {
             >
               <KLAReportPage4 ref={thumbnailRefs4} customData={analysis} />
             </PreviewWrapper>
-            <PreviewWrapper
-              onClick={() => setCurrentPage(4)}
-              isSelected={currentPage === 4}
-            >
-              <KLAReportPage6 ref={thumbnailRefs6} customData={analysis} />
+            <PreviewWrapper isSelected={currentPage === 10 + subPage}>
+              <KLAReportPage6
+                ref={thumbnailRefs6}
+                customData={analysis}
+                setCurrentPage={(page) => {
+                  setCurrentPage(10);
+                  setSubPage(page);
+                }}
+              />
             </PreviewWrapper>
             <PreviewWrapper
               onClick={() => setCurrentPage(5)}
@@ -347,10 +352,14 @@ function KLAResult() {
               <KLAReportPage4 ref={pageRefs4} customData={analysis} />
             </DetailWrapper>
             <DetailWrapper
-              isSelect={currentPage === 4}
+              isSelect={currentPage === 10}
               isExporting={isExporting}
             >
-              <KLAReportPage6 ref={pageRefs6} customData={analysis} />
+              <KLAReportPage6
+                ref={pageRefs6}
+                customData={analysis}
+                subPage={subPage}
+              />
             </DetailWrapper>
             <DetailWrapper
               isSelect={currentPage === 5}
@@ -431,8 +440,6 @@ const PreviewContainer = styled.div`
 
 const PreviewWrapper = styled.div`
   cursor: pointer;
-  background-color: ${(props) =>
-    props.isSelected ? "var(--bg-primary)" : "transparent"};
   width: 100%;
   align-items: center;
   justify-content: center;
