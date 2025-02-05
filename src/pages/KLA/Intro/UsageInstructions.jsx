@@ -1,72 +1,12 @@
-import {
-  Button,
-  Divider,
-  Popover,
-  Row,
-  Space,
-  Tooltip,
-  Alert,
-  Image,
-} from "antd";
+import { Divider, Popover, Space, Alert, Image } from "antd";
 import React from "react";
 import styled from "styled-components";
-import { H2, H3, H4, H5 } from "../../../component/Typography";
+import { H3, H4, H5 } from "../../../component/Typography";
 import { BiInfoCircle } from "react-icons/bi";
 import { ExampleImage } from "../../../assets/images";
 import { useMediaQuery } from "react-responsive";
 
-function UsageInstructions(props) {
-  const [step, setStep] = React.useState(1);
-  return (
-    <UsageInstructionsContainer>
-      <NavigationContainer>
-        <NavigationButton active={step === 1} onClick={() => setStep(1)}>
-          <H5>1단계</H5>
-          <H4>정보 입력</H4>
-        </NavigationButton>
-        <NavigationButton active={step === 2} onClick={() => setStep(2)}>
-          <H5>2단계</H5>
-          <H4>발화 전사 입력</H4>
-        </NavigationButton>
-        <NavigationButton active={step === 3} onClick={() => setStep(3)}>
-          <H5>3단계</H5>
-          <H4>분석 결과 확인</H4>
-        </NavigationButton>
-      </NavigationContainer>
-      {step === 1 && <Step1 />}
-      {step === 2 && <Step2 />}
-      {step === 3 && <Step3 />}
-    </UsageInstructionsContainer>
-  );
-}
-
-export function MobileUsageInstructions(props) {
-  const [step, setStep] = React.useState(1);
-  return (
-    <MobileUsageInstructionsContainer>
-      <NavigationContainer style={{ padding: "0px", width: "100%" }}>
-        <NavigationButton active={step === 1} onClick={() => setStep(1)}>
-          <H5>1단계</H5>
-          <H4>정보 입력</H4>
-        </NavigationButton>
-        {step === 1 && <Step1 />}
-        <NavigationButton active={step === 2} onClick={() => setStep(2)}>
-          <H5>2단계</H5>
-          <H4>발화 전사 입력</H4>
-        </NavigationButton>
-        {step === 2 && <Step2 />}
-        <NavigationButton active={step === 3} onClick={() => setStep(3)}>
-          <H5>3단계</H5>
-          <H4>분석 결과 확인</H4>
-        </NavigationButton>
-        {step === 3 && <Step3 />}
-      </NavigationContainer>
-    </MobileUsageInstructionsContainer>
-  );
-}
-
-export default UsageInstructions;
-
+// Step Components (Move them above the main component)
 const Step1 = () => {
   const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
   return (
@@ -74,28 +14,26 @@ const Step1 = () => {
       <Space>
         <H3>정보 입력</H3>
       </Space>
-      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+      <StepContentWrapper>
         <H4>1. 아동 정보 입력</H4>
         <AlertContentWrapper>
           <li>
-            {
-              "아동에 관한 정보(이름, 생년월일, 성별, 특이사항)를 아래 샘플과 같이 적습니다."
-            }
+            아동에 관한 정보(이름, 생년월일, 성별, 특이사항)를 아래 샘플과 같이
+            적습니다.
           </li>
         </AlertContentWrapper>
-      </div>
+      </StepContentWrapper>
       <Divider style={{ margin: 0 }} />
-      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+      <StepContentWrapper>
         <H4>2. 평가자 정보 입력</H4>
         <AlertContentWrapper>
           <li>
-            {
-              "평가자에 관한 정보(이름, 평가기관, 검사날짜)를 아래 샘플과 같이 적습니다."
-            }
+            평가자에 관한 정보(이름, 평가기관, 검사날짜)를 아래 샘플과 같이
+            적습니다.
           </li>
         </AlertContentWrapper>
         <Image preview={false} src={ExampleImage} />
-      </div>
+      </StepContentWrapper>
     </StepContainer>
   );
 };
@@ -104,20 +42,12 @@ const Step2 = () => {
   const isDesktop = useMediaQuery({ query: "(min-width: 768px)" });
   return (
     <StepContainer isDesktop={isDesktop}>
-      <Space>
+      <Space align="center">
         <H3>발화 전사 입력</H3>
         <Popover
           placement="topLeft"
           content={
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-
-                padding: "16px",
-                boxSizing: "border-box",
-              }}
-            >
+            <PopoverContent>
               <H4 style={{ fontWeight: "bold" }}>발화 전사자료 샘플 예시</H4>
               <Divider />
               <div style={{ whiteSpace: "pre-wrap" }}>
@@ -141,22 +71,22 @@ const Step2 = () => {
 아 네.
 아 버려/ㅆ/잖아/요 [실화].`}
               </div>
-            </div>
+            </PopoverContent>
           }
         >
           <BiInfoCircle style={{ width: "24px", height: "24px" }} />
         </Popover>
       </Space>
-      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+      <StepContentWrapper>
         <H4>1. 발화자 적기</H4>
         <AlertContentWrapper>
           <li>모든 아동의 발화의 맨 앞에는 “아”라고 표시합니다.</li>
           <li>검사자의 경우 “검”이라고 표시합니다.</li>
           <li>엄마의 경우 “엄"이라고 표시한 후 발화를 적습니다.</li>
         </AlertContentWrapper>
-      </div>
+      </StepContentWrapper>
       <Divider style={{ margin: 0 }} />
-      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+      <StepContentWrapper>
         <H4>2. 발화 내용 입력</H4>
         <AlertContentWrapper>
           <li>어절은 띄어쓰기로, 문법형태소는 /로 표시합니다.</li>
@@ -188,7 +118,7 @@ const Step2 = () => {
             type="info"
           />
         </AlertContentWrapper>
-      </div>
+      </StepContentWrapper>
     </StepContainer>
   );
 };
@@ -200,14 +130,14 @@ const Step3 = () => {
       <Space>
         <H3>분석 결과 확인</H3>
       </Space>
-      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+      <StepContentWrapper>
         <H4>1. 발화의 종류를 나누어 보여줍니다.</H4>
         <AlertContentWrapper>
           <li>{"평서(.), 의문(?), 감탄(!) > (겹침), ^(끊어짐)"}</li>
         </AlertContentWrapper>
-      </div>
+      </StepContentWrapper>
       <Divider style={{ margin: 0 }} />
-      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+      <StepContentWrapper>
         <H4>2. 사용 빈도를 알려줍니다.</H4>
         <AlertContentWrapper>
           <li>
@@ -219,9 +149,9 @@ const Step3 = () => {
           </li>
           <li>서로 다른 유형수와 총 사용빈도수로 비율도 알려줍니다.</li>
         </AlertContentWrapper>
-      </div>
+      </StepContentWrapper>
       <Divider style={{ margin: 0 }} />
-      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+      <StepContentWrapper>
         <H4>3. 낱말 리스트</H4>
         <AlertContentWrapper>
           <li>
@@ -229,73 +159,111 @@ const Step3 = () => {
             순으로 알려줍니다.
           </li>
         </AlertContentWrapper>
-      </div>
+      </StepContentWrapper>
       <Divider style={{ margin: 0 }} />
-      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+      <StepContentWrapper>
         <H4>4. 문법형태소 리스트</H4>
         <AlertContentWrapper>
           <li>
-            문법형태소이 어절과 결합하여 나타난 위치 수에 따라 리스트들을
+            문법형태소가 어절과 결합하여 나타난 위치 수에 따라 리스트들을
             보여줍니다.
           </li>
         </AlertContentWrapper>
-      </div>
+      </StepContentWrapper>
     </StepContainer>
   );
 };
 
-const MobileUsageInstructionsContainer = styled.div`
+// Main Component
+function UsageInstructions(props) {
+  const [step, setStep] = React.useState(1);
+
+  return (
+    <UsageInstructionsContainer>
+      <NavigationContainer>
+        {["정보 입력", "발화 전사 입력", "분석 결과 확인"].map(
+          (label, index) => (
+            <NavigationButton
+              key={index}
+              active={step === index + 1}
+              onClick={() => setStep(index + 1)}
+            >
+              <H5>{`${index + 1}단계`}</H5>
+              <H4>{label}</H4>
+            </NavigationButton>
+          )
+        )}
+      </NavigationContainer>
+      {step === 1 && <Step1 />}
+      {step === 2 && <Step2 />}
+      {step === 3 && <Step3 />}
+    </UsageInstructionsContainer>
+  );
+}
+
+export function MobileUsageInstructions(props) {
+  const [step, setStep] = React.useState(1);
+
+  return (
+    <MobileUsageInstructionsContainer>
+      <NavigationContainer style={{ padding: "0px", width: "100%" }}>
+        {[<Step1 />, <Step2 />, <Step3 />].map((Component, index) => (
+          <React.Fragment key={index}>
+            <NavigationButton
+              active={step === index + 1}
+              onClick={() => setStep(index + 1)}
+            >
+              <H5>{`${index + 1}단계`}</H5>
+              <H4>
+                {["정보 입력", "발화 전사 입력", "분석 결과 확인"][index]}
+              </H4>
+            </NavigationButton>
+            {step === index + 1 && Component}
+          </React.Fragment>
+        ))}
+      </NavigationContainer>
+    </MobileUsageInstructionsContainer>
+  );
+}
+
+export default UsageInstructions;
+
+// Styled Components
+const UsageInstructionsContainer = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
   gap: 16px;
-  overflow: hidden;
+  background-color: var(--bg-disable);
+  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
   height: 100%;
   flex: 1;
 `;
 
-const UsageInstructionsContainer = styled.div`
+const MobileUsageInstructionsContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  flex-direction: column;
   gap: 16px;
-  box-sizing: border-box;
-  background-color: var(--bg-body);
-  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
-  overflow: hidden;
   height: 100%;
-  flex: 1;
-
-  background-color: var(--bg-disable);
 `;
 
 const NavigationContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 24px;
   padding: 24px;
-  box-sizing: border-box;
-  // background-color: var(--bg-disable);
   width: 250px;
-  height: 100%; /* Ensure NavigationContainer fills available height */
+  height: 100%;
 `;
 
 const NavigationButton = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
   padding: 8px 16px;
-  box-sizing: border-box;
-  border: none;
   border-radius: 8px;
-  color: var(--text-secondary);
-  cursor: pointer;
-  color: ${(props) =>
-    props.active ? "var(--fg-primary)" : "var(--text-secondary)"};
   background-color: ${(props) =>
     props.active ? "var(--bg-primary)" : "var(--bg-disable)"};
+  color: ${(props) =>
+    props.active ? "var(--fg-primary)" : "var(--text-secondary)"};
+  cursor: pointer;
   text-align: left;
   width: 100%;
 
@@ -306,16 +274,43 @@ const NavigationButton = styled.div`
 `;
 
 const StepContainer = styled.div`
+  padding: ${({ isDesktop }) => (isDesktop ? "32px" : "16px")};
+  flex: 1;
+
+  background-color: var(--bg-body);
+`;
+
+const StepContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 24px;
-  padding: ${({ isDesktop }) => (isDesktop ? "32px" : "16px")};
+  gap: 10px;
+  padding: 24px 0;
   box-sizing: border-box;
-  background-color: var(--bg-body);
+`;
+
+const AlertContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-secondary);
+`;
+
+const AlertContainer = styled(Alert)`
   width: 100%;
-  flex: 1;
-  height: 100%;
+  margin-top: 16px;
+  border: none;
+  padding: 10px;
+  box-sizing: border-box;
+`;
+
+const AlertTitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  font-weight: bold;
+  padding: 0 10px;
 `;
 
 const PopoverContent = styled.div`
@@ -323,35 +318,4 @@ const PopoverContent = styled.div`
   flex-direction: column;
   padding: 16px;
   box-sizing: border-box;
-`;
-
-const AlertContainer = styled(Alert)`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 10px;
-  box-sizing: border-box;
-  width: 100%;
-  border: none;
-  margin-top: 16px;
-`;
-
-const AlertTitleWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 16px;
-  padding: 0 10px;
-  box-sizing: border-box;
-  width: 100%;
-  font-weight: bold;
-  align-items: center;
-`;
-
-const AlertContentWrapper = styled.div`
-  color: var(--text-secondary);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-weight: normal;
-  font-size: 14px;
 `;

@@ -1,14 +1,20 @@
 import React from "react";
 import styled from "styled-components";
-import { B3, H3, H4 } from "../../../component/Typography";
 import { Alert, Col, Row } from "antd";
 import { BiInfoCircle } from "react-icons/bi";
+import { B3, H3, H4 } from "../../../component/Typography";
 import { BallImage, SwingImage } from "../../../assets/images";
 import { ServiceCard, VisionCard } from "../../../component/Card";
 
+/* ===========================
+   Spontaneous Component
+   - 자발화 관련 내용 표시
+=========================== */
 export const Spontaneous = () => {
+  // style 객체를 통해 색상을 재사용
   const textSecondary = { color: "var(--text-secondary)" };
 
+  // 자발화 관련 질문 데이터
   const questions = [
     {
       category: "일상생활",
@@ -49,6 +55,7 @@ export const Spontaneous = () => {
     },
   ];
 
+  // 자발화 선정 기준 데이터
   const selectionCriteria = [
     "자료를 3번 반복해서 들어도 전사가 불가능한 발화는 전사하지 않는다.",
     "모방과 자발화를 구분하지 않고 모두 전사한다.",
@@ -59,6 +66,7 @@ export const Spontaneous = () => {
 
   return (
     <ContentContainer>
+      {/* 자발화 개수 안내 */}
       <ContentWrapper>
         <H3>1) 자발화 개수</H3>
         <B3 style={textSecondary}>
@@ -68,15 +76,25 @@ export const Spontaneous = () => {
         </B3>
       </ContentWrapper>
 
+      {/* 자발화 주제 안내 */}
       <ContentWrapper>
         <H3>2) 자발화 주제</H3>
         <B3 style={textSecondary}>
-          {`본 준거에 포함된 아동의 자발화는 놀이상황 20분, 책 상호작용 5분을 통해 수집하였다. 놀이상황은 4개 주제로 일상생활(소꿉놀이), 동물(동물원, 반려동물), 탈 것(공사장, 다양한 자동차), 블록을 포함하였다. 아동이 흥미를 가지는 장난감을 사용하여 상호작용을 시작하며 만일 발화수가 한정적인 경우 검사자가 다른 놀잇감을 제안할 수 있다.
+          {`본 준거에 포함된 아동의 자발화는 놀이상황 20분, 책 상호작용 5분을 통해 수집하였다.
+놀이상황은 4개 주제로 일상생활(소꿉놀이), 동물(동물원, 반려동물), 탈 것(공사장, 다양한 자동차), 블록을 포함하였다.
+아동이 흥미를 가지는 장난감을 사용하여 상호작용을 시작하며 만일 발화수가 한정적인 경우 검사자가 다른 놀잇감을 제안할 수 있다.
 
-놀이상황 이외에도 책을 활용하여 5분 정도 발화를 수집할 수 있다. 준거에 포함된 책 상호작용 자발화는 "누가 내 머리에 똥 쌌어?(베르너 홀츠바르트, 사계절)", "아빠와 피자놀이(윌리엄 스타이그, 비룡소)"와 같은 도서를 활용하였다. 아동의 연령이 어리거나 언어 수준이 높지 않다고 판단되는 경우 "누가 내 머리에 똥 쌌어?"를 활용하였으며 아동의 연령이 높고 구어 상호작용이 원활한 경우 "아빠와 피자놀이" 책을 사용하였다. 책은 글자가 써진 부분을 가리고 그림만을 제공하였다. 아동이 스스로 책을 묘사하거나 이야기를 만들도록 두었으며 검사자는 책 끝까지 아동이 볼 수 있도록 독려하였다. 만일 검사 시 동일한 도서가 없는 경우 유사한 수준의 도서를 선정하여 실시할 수 있다.`}
+놀이상황 이외에도 책을 활용하여 5분 정도 발화를 수집할 수 있다.
+준거에 포함된 책 상호작용 자발화는 "누가 내 머리에 똥 쌌어?(베르너 홀츠바르트, 사계절)", "아빠와 피자놀이(윌리엄 스타이그, 비룡소)"와 같은 도서를 활용하였다.
+아동의 연령이 어리거나 언어 수준이 높지 않다고 판단되는 경우 "누가 내 머리에 똥 쌌어?"를 활용하였으며
+아동의 연령이 높고 구어 상호작용이 원활한 경우 "아빠와 피자놀이" 책을 사용하였다.
+책은 글자가 써진 부분을 가리고 그림만을 제공하였다.
+아동이 스스로 책을 묘사하거나 이야기를 만들도록 두었으며 검사자는 책 끝까지 아동이 볼 수 있도록 독려하였다.
+만일 검사 시 동일한 도서가 없는 경우 유사한 수준의 도서를 선정하여 실시할 수 있다.`}
         </B3>
       </ContentWrapper>
 
+      {/* 자발화 수집 시 주의사항 및 질문 예시 */}
       <ContentWrapper>
         <H3>3) 자발화 수집 시 주의사항 및 예시</H3>
         <B3 style={textSecondary}>
@@ -86,10 +104,11 @@ export const Spontaneous = () => {
           관심사(유튜브, 만화영화, 캐릭터)에 대한 질문을 넣어 아동 스스로 길게
           설명하거나 묘사할 기회를 제공해야 한다.
         </B3>
+        {/* Alert 컴포넌트를 이용한 질문 예시 */}
         <AlertContainer
           message={
             <AlertTitleWrapper>
-              <BiInfoCircle size={20} style={{ color: "var(--fg-primary)" }} />{" "}
+              <BiInfoCircle size={20} style={{ color: "var(--fg-primary)" }} />
               질문 예시
             </AlertTitleWrapper>
           }
@@ -98,6 +117,7 @@ export const Spontaneous = () => {
         />
       </ContentWrapper>
 
+      {/* 자발화 선정 기준 */}
       <ContentWrapper>
         <H3>4) 자발화 선정 기준</H3>
         <B3 style={textSecondary}>
@@ -110,6 +130,10 @@ export const Spontaneous = () => {
   );
 };
 
+/* ---------------------------
+   QuestionList Component
+   - 질문 예시 목록을 렌더링
+---------------------------- */
 const QuestionList = ({ questions }) => (
   <AlertContentWrapper>
     {questions.map(({ category, examples }, idx) => (
@@ -120,6 +144,10 @@ const QuestionList = ({ questions }) => (
   </AlertContentWrapper>
 );
 
+/* ---------------------------
+   AlertSection Component
+   - 자발화 선정 기준 목록을 Alert 형식으로 렌더링
+---------------------------- */
 const AlertSection = ({ criteria }) => (
   <AlertContainer
     description={
@@ -135,9 +163,14 @@ const AlertSection = ({ criteria }) => (
   />
 );
 
+/* ===========================
+   Story Component
+   - 이야기 평가 및 산출 절차 관련 내용 표시
+=========================== */
 export const Story = ({ isDesktop }) => {
   const textSecondary = { color: "var(--text-secondary)" };
 
+  // 이야기 관련 데이터 (그림 카드 정보)
   const storyData = [
     {
       key: "swing",
@@ -145,9 +178,16 @@ export const Story = ({ isDesktop }) => {
       title: "그네 이야기",
       names: "민이, 돌이",
     },
-    { key: "ball", icon: BallImage, title: "공 이야기", names: "순이, 돌이" },
+    {
+      key: "ball",
+      icon: BallImage,
+      title: "공 이야기",
+      names: "순이, 돌이",
+    },
   ];
 
+  /* StorySection 컴포넌트
+     - 각 이야기 카드(자발산출, 회상산출)를 렌더링 */
   const StorySection = ({ title, instruction, isRecall }) => (
     <Row gutter={[16, 16]}>
       {storyData.map(({ key, icon, title, names }) => (
@@ -169,12 +209,15 @@ export const Story = ({ isDesktop }) => {
 
   return (
     <ContentContainer>
+      {/* 자료 수집 도구 안내 */}
       <ContentWrapper>
         <H3>1) 자료 수집 도구</H3>
         <B3 style={textSecondary}>
           한국어 이야기 평가(KONA; 권유진, 진연선, 배소영, 2016) : 학령전기용
         </B3>
       </ContentWrapper>
+
+      {/* 자료 수집 절차 안내 */}
       <ContentWrapper>
         <H3>2) 자료 수집 절차</H3>
         <H4>(1) 자발산출</H4>
@@ -187,12 +230,14 @@ export const Story = ({ isDesktop }) => {
         <H4>(2) 회상산출</H4>
         <StorySection
           title="회상산출"
-          instruction={(names) =>
+          instruction={() =>
             `그네이야기 그림카드를 보여주며 지시문을 들려준다. (예: "잘 듣고 기억했다가 나중에 다시 말해줘야 해요.")`
           }
           isRecall
         />
       </ContentWrapper>
+
+      {/* 자료 수집 시 주의사항 */}
       <ContentWrapper>
         <H3>3) 자료 수집 시 주의사항</H3>
         <AlertContainer
@@ -221,7 +266,12 @@ export const Story = ({ isDesktop }) => {
   );
 };
 
+/* ===========================
+   Write Component
+   - 문장 쓰기 평가 및 관련 절차/주의사항 표시
+=========================== */
 export const Write = ({ isDesktop }) => {
+  // 문장 쓰기 과제 데이터
   const writingTasks = [
     { title: "공통 연습문항", content: "버스타기" },
     { title: "1~2학년 본문항", content: "현장학습 / 가방싸기" },
@@ -229,6 +279,7 @@ export const Write = ({ isDesktop }) => {
     { title: "5~6학년 본문항", content: "여름방학 / 예주의 숙제" },
   ];
 
+  // 문장 쓰기 절차 데이터
   const procedures = [
     {
       title: "연습문항",
@@ -247,22 +298,24 @@ export const Write = ({ isDesktop }) => {
     },
   ];
 
+  // 주의사항 데이터
   const precautions = [
     "본문항에서 아동이 요구된 문장 수를 다 작성하지 않더라도 추가적인 문장 쓰기를 요구하지 않는다.",
     "제한시간 20분을 초과할 경우, 작성한 부분까지만 분석한다.",
     "분석할 때는 연습문항을 제외한 본문항 두 개를 통합하여 분석한다.",
     `분석할 때 검사지의 미완성 문장부터 아동이 작성한 문장을 분석한다.
-현장학습 : 왜냐하면 ~~
-가방싸기 : 태희/는 가방/에 간식/을 넣/을 수 없/어서 ~~
-개학날 : 보라/는 오늘 처음 이 학교/에 와/ㅆ/고, ~~
-아침조회 : 교장 선생님/께서/는 ~~
-여름방학 : 학교/가 싫/었/다는 뜻/은 아니/고, ~~
-예주의 숙제 : 이제 2 주일 후/면 숙제/를 제출/을 해/야 하/는데, ~~`,
+    현장학습 : 왜냐하면 ~~
+    가방싸기 : 태희/는 가방/에 간식/을 넣/을 수 없/어서 ~~
+    개학날 : 보라/는 오늘 처음 이 학교/에 와/ㅆ/고, ~~
+    아침조회 : 교장 선생님/께서/는 ~~
+    여름방학 : 학교/가 싫/었/다는 뜻/은 아니/고, ~~
+    예주의 숙제 : 이제 2 주일 후/면 숙제/를 제출/을 해/야 하/는데, ~~`,
     "쓰기 과제 두 개를 모두 완성한 경우만 결과 비교가 가능하다.",
   ];
 
   return (
     <ContentContainer>
+      {/* 자료 수집 도구 안내 */}
       <ContentWrapper>
         <H3>1) 자료 수집 도구</H3>
         <B3 style={{ color: "var(--text-secondary)" }}>
@@ -279,6 +332,7 @@ export const Write = ({ isDesktop }) => {
         </Row>
       </ContentWrapper>
 
+      {/* 자료 수집 절차 안내 */}
       <ContentWrapper>
         <H3>2) 자료 수집 절차</H3>
         <Row gutter={[16, 16]}>
@@ -294,6 +348,7 @@ export const Write = ({ isDesktop }) => {
         </Row>
       </ContentWrapper>
 
+      {/* 자료 수집 시 주의사항 */}
       <ContentWrapper>
         <H3>3) 자료 수집 시 주의사항</H3>
         <AlertContainer
@@ -313,23 +368,31 @@ export const Write = ({ isDesktop }) => {
   );
 };
 
+/* ===========================
+   Styled Components
+   - 공통 레이아웃 및 스타일 정의
+=========================== */
+
+// 전체 콘텐츠를 감싸는 컨테이너
 const ContentContainer = styled.div`
-  gap: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 24px;
   box-sizing: border-box;
 `;
 
+// 각 콘텐츠 섹션을 감싸는 래퍼
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  paddding: 10px;
+  padding: 10px;
   box-sizing: border-box;
   width: 100%;
 `;
 
+// Alert 컴포넌트 스타일 재정의
 const AlertContainer = styled(Alert)`
   display: flex;
   flex-direction: column;
@@ -340,6 +403,7 @@ const AlertContainer = styled(Alert)`
   border: none;
 `;
 
+// Alert 타이틀 영역 스타일
 const AlertTitleWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -350,6 +414,7 @@ const AlertTitleWrapper = styled.div`
   font-weight: bold;
 `;
 
+// Alert 내부 내용 스타일 (목록 형태)
 const AlertContentWrapper = styled.div`
   padding-left: 20px;
   color: var(--text-secondary);
