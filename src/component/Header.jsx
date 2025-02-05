@@ -106,9 +106,14 @@ function TopHeader(props) {
         <Space size={16} style={{ display: "flex", flexDirection: "column" }}>
           <H4
             style={{
+              cursor: "pointer",
               whiteSpace: "nowrap",
               overflow: "hidden",
               color: "var(--text-secondary)",
+            }}
+            onClick={() => {
+              navigate("/mypage");
+              closeDrawer();
             }}
           >
             {user.email}
@@ -193,9 +198,14 @@ function TopHeader(props) {
             <Space size={16}>
               <H4
                 style={{
+                  cursor: "pointer",
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   color: "var(--text-secondary)",
+                }}
+                onClick={() => {
+                  navigate("/mypage");
+                  closeDrawer();
                 }}
               >
                 {user.email}

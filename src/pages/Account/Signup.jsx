@@ -2,10 +2,10 @@ import { Form, Image, Row, Col } from "antd";
 import React from "react";
 import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
-import { MainImage } from "../assets/images";
-import { PrimaryButton } from "../component/Button";
-import { PasswordInput, TextInput } from "../component/Input";
-import { H3, H4 } from "../component/Typography";
+import { MainImage } from "../../assets/images";
+import { PrimaryButton } from "../../component/Button";
+import { PasswordInput, TextInput } from "../../component/Input";
+import { H3, H4 } from "../../component/Typography";
 
 function Signup() {
   const [form] = Form.useForm();

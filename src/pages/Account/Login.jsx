@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import Logo from "../component/Logo";
-import { PasswordInput, TextInput } from "../component/Input";
-import { PrimaryButton, SecondaryButton } from "../component/Button";
+import Logo from "../../component/Logo";
+import { PasswordInput, TextInput } from "../../component/Input";
+import { PrimaryButton, SecondaryButton } from "../../component/Button";
 import { Form, message } from "antd";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";

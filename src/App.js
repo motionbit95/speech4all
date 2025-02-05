@@ -8,8 +8,8 @@ import {
 import axios from "axios";
 import "./App.css";
 import "./assets/styles/global.css";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import Login from "./pages/Account/Login";
+import Signup from "./pages/Account/Signup";
 import { ConfigProvider } from "antd";
 import theme from "./assets/styles/theme";
 import styled from "styled-components";
@@ -18,6 +18,7 @@ import Footer from "./component/Footer";
 import Home from "./pages/Home";
 import KLA from "./pages/KLA";
 import SLE from "./pages/SLE";
+import MyPage from "./pages/Account/MyPage";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -68,6 +69,7 @@ function AppContent({ user, onLogout, onLogin }) {
           <Route path="/sle/*" element={<SLE user={user} />} />
           <Route path="/login" element={<Login onLogin={onLogin} />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/mypage" element={<MyPage user={user} />} />
         </Routes>
       </PageWrapper>
       {showHeader && <Footer />}

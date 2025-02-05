@@ -73,7 +73,14 @@ app.post("/api/login", (req, res) => {
       //console.log(user);
       const isMatch = await bcrypt.compare(password, user.password); // 비밀번호 비교
       if (isMatch) {
-        res.status(200).json({ message: "로그인 성공", user });
+        res.status(200).json({
+          message: "로그인 성공",
+          user: {
+            id: user.id,
+            email: user.email,
+            password: password,
+          },
+        });
       } else {
         res
           .status(401)
