@@ -1,4 +1,4 @@
-import { Form, Image, Row, Col } from "antd";
+import { Form, Image, Row, Col, message } from "antd";
 import React from "react";
 import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
@@ -7,11 +7,37 @@ import { PrimaryButton } from "../../component/Button";
 import { PasswordInput, TextInput } from "../../component/Input";
 import { H3, H4 } from "../../component/Typography";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Signup() {
   const [form] = Form.useForm();
   const isDesktop = useMediaQuery({ query: "(min-width: 576px)" });
   const navigate = useNavigate();
+
+  const handleSubmit = async (values) => {
+    try {
+      await axios
+        .post(`${process.env.REACT_APP_SERVER_URL}/api/signup`, {
+          email: values.email,
+          password: values.password,
+        })
+        .then((response) => {
+          message.success("회원 가입이 완료되었습니다."); // 성공 메시지 설정
+
+          navigate("/login"); // 3초 후 로그인 페이지로 이동
+        })
+        .catch((error) => {
+          message.error("회원가입에 실패했습니다.");
+        });
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        message.error("이미 등록된 이메일입니다.");
+      } else {
+        message.error("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      }
+    } finally {
+    }
+  };
 
   return (
     <Row>
@@ -34,7 +60,7 @@ function Signup() {
             name="login-form"
             layout={isDesktop ? "vertical" : "horizontal"} // 동적으로 변경
             requiredMark={false}
-            onFinish={() => {}}
+            onFinish={handleSubmit}
           >
             <SignupItem
               name={"email"}
