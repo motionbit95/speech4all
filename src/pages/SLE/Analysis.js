@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
 import { PrimaryButton, SecondaryButton } from "../../component/Button";
 import axios from "axios";
+import { templeteHTML } from "../../templete";
 
 const convertToRtfUnicode = (text) => {
   return text
@@ -80,22 +81,38 @@ function Analysis(props) {
       updatedContent = updatedContent.replace("{SCOREB}", data.categoryBScore);
 
       setRtfContent(updatedContent); // 업데이트된 RTF 콘텐츠 상태에 설정
-
-      axios
-        .post(`${process.env.REACT_APP_SERVER_URL}/api/convert-rtf`, {
-          data: { ...data, examdate: formatExamDate(data.info.examdate) },
-        })
-        .then((response) => {
-          console.log("RTF 변환 결과:", response.data);
-          setHtmlContent(response.data);
-        })
-        .catch((error) => {
-          console.log("RTF 변환 오류:", error);
-        });
-
-      // console.log("updatedContent:", updatedContent);
     } catch (error) {
       console.error("파일 로드 실패:", error);
+    }
+
+    try {
+      let updatedContent = templeteHTML;
+
+      updatedContent = updatedContent.replace("{LOCATION}", data.info.region);
+      updatedContent = updatedContent.replace(
+        "{ORGANIZE}",
+        data.info.institution
+      );
+      updatedContent = updatedContent.replace(
+        "{TEACHERNAME}",
+        data.info.examiner
+      );
+      updatedContent = updatedContent.replace(
+        "{DATE}",
+        formatExamDate(data.info.examdate)
+      );
+      updatedContent = updatedContent.replace("{GENDER}", data.info.gender);
+      updatedContent = updatedContent.replace("{CHILDENNAME}", data.info.name);
+      updatedContent = updatedContent.replace(
+        "{TOTALSCORE}",
+        data.categoryAScore + data.categoryBScore
+      );
+      updatedContent = updatedContent.replace("{SCOREA}", data.categoryAScore);
+      updatedContent = updatedContent.replace("{SCOREB}", data.categoryBScore);
+
+      setHtmlContent(updatedContent);
+    } catch (error) {
+      console.error("HTML 변환 오류:", error);
     }
   };
 
