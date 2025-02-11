@@ -1,8 +1,7 @@
 import { Divider, Image } from "antd";
 import React from "react";
-import { ChatIcon } from "../assets/icons";
 import styled from "styled-components";
-import { H1, H3 } from "./Typography";
+import { B3, H1, H4 } from "./Typography";
 import { useMediaQuery } from "react-responsive";
 
 function Card(props) {
@@ -26,7 +25,9 @@ export function VisionCard(props) {
           <Image preview={false} src={icon} />
         )}
       </div>
-      <CardHeader>{title}</CardHeader>
+      <CardHeader>
+        <H4>{title}</H4>
+      </CardHeader>
       <Divider
         style={{
           margin: "0",
@@ -35,7 +36,9 @@ export function VisionCard(props) {
           borderColor: "#D9D9D9",
         }}
       />
-      <CardBody>{props.children}</CardBody>
+      <CardBody>
+        <B3>{props.children}</B3>
+      </CardBody>
     </CardContainer>
   );
 }
@@ -54,7 +57,9 @@ export function ServiceCard(props) {
       >
         <Image preview={false} src={icon} />
       </div>
-      <CardHeader>{title}</CardHeader>
+      <CardHeader>
+        <H4>{title}</H4>
+      </CardHeader>
       <Divider
         style={{
           margin: "0",
@@ -63,7 +68,9 @@ export function ServiceCard(props) {
           borderColor: "#D9D9D9",
         }}
       />
-      <CardBody>{props.children}</CardBody>
+      <CardBody>
+        <B3>{props.children}</B3>
+      </CardBody>
     </ServiceCardContainer>
   );
 }
@@ -74,9 +81,11 @@ export function DescriptionCard(props) {
   return (
     <ServiceCardContainer isDesktop={isDesktop}>
       <CardHeader style={{ alignItems: "flex-start", width: "100%" }}>
-        📌 {title}
+        <H4>📌 {title}</H4>
       </CardHeader>
-      <CardBody>{props.children}</CardBody>
+      <CardBody>
+        <B3>{props.children}</B3>
+      </CardBody>
     </ServiceCardContainer>
   );
 }
@@ -113,17 +122,15 @@ const ServiceCardContainer = styled.div`
 `;
 
 const CardHeader = styled.div`
-  font-size: 18px;
   font-family: "Pretendard", sans-serif;
   color: var(--text-primary);
   font-weight: 600;
 `;
 
 const CardBody = styled.div`
-  font-size: 14px;
   font-family: "Pretendard", sans-serif;
   color: var(--text-secondary);
-  line-height: 24px;
+  line-height: 1.6;
 `;
 
 export default Card;

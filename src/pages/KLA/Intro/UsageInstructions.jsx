@@ -1,7 +1,7 @@
 import { Divider, Popover, Space, Alert, Image } from "antd";
 import React from "react";
 import styled from "styled-components";
-import { H3, H4, H5 } from "../../../component/Typography";
+import { B3, H3, H4, H5 } from "../../../component/Typography";
 import { BiInfoCircle } from "react-icons/bi";
 import { ExampleImage } from "../../../assets/images";
 import { useMediaQuery } from "react-responsive";
@@ -288,11 +288,10 @@ const StepContentWrapper = styled.div`
   box-sizing: border-box;
 `;
 
-const AlertContentWrapper = styled.div`
+const AlertContentWrapper = styled(B3)`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  font-size: 14px;
   color: var(--text-secondary);
 `;
 

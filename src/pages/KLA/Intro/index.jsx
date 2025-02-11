@@ -1,7 +1,7 @@
 import React from "react";
 import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
-import { H1, H2 } from "../../../component/Typography";
+import { B2, H1, H2 } from "../../../component/Typography";
 import { DarkButton } from "../../../component/Button";
 import { KLAIntroImage } from "../../../assets/images";
 import { Image, Tabs } from "antd";
@@ -117,9 +117,11 @@ const HeroSection = ({ isDesktop, setMessageInfo }) => (
     <HeroContent>
       <H1>KLA(Korean Language Analysis)</H1>
       <SubText>
-        KLA는 한림대학교 언어병리학과와 서강대학교 컴퓨터공학과 교수진이 공동
-        연구한 프로그램입니다. 사용자가 입력한 발화 자료를 통해 빠르고 정확한
-        언어 분석을 제공합니다.
+        <B2>
+          KLA는 한림대학교 언어병리학과와 서강대학교 컴퓨터공학과 교수진이 공동
+          연구한 프로그램입니다. 사용자가 입력한 발화 자료를 통해 빠르고 정확한
+          언어 분석을 제공합니다.
+        </B2>
       </SubText>
       <ButtonWrapper>
         <DarkButton
@@ -138,7 +140,7 @@ const HeroSection = ({ isDesktop, setMessageInfo }) => (
 /** Service Section */
 const ServiceSection = ({ isDesktop }) => (
   <SectionBackground>
-    <SectionContainer>
+    <SectionContainer isDesktop={isDesktop}>
       <H2 style={{ textAlign: "center" }}>프로그램 소개</H2>
       <ServiceCardWrapper isDesktop={isDesktop}>
         <ServiceCard icon={PaperConsultantIcon} title="자동화된 분석 제공">
@@ -171,8 +173,10 @@ const GuideSection = ({ isDesktop }) => (
   <SectionContainer>
     <H2>KLA 사용방법</H2>
     <SubText>
-      대상자 또는 상대 대화자의 발화를 전사한 후 어절과 문법형태소 경계를 나누면
-      KLA가 자동으로 분석 결과를 제공합니다.
+      <B2>
+        대상자 또는 상대 대화자의 발화를 전사한 후 어절과 문법형태소 경계를
+        나누면 KLA가 자동으로 분석 결과를 제공합니다.
+      </B2>
     </SubText>
     {isDesktop ? <UsageInstructions /> : <MobileUsageInstructions />}
   </SectionContainer>
@@ -182,11 +186,11 @@ const GuideSection = ({ isDesktop }) => (
 const CollectionMethodSection = ({ items }) => (
   <SectionBackgroundLight>
     <SectionContainer>
-      <H2>자료수집방법</H2>
+      <H2>자료 수집 방법</H2>
       <SubText>
-        연령대별 측정치 준거를 비교하기 위한 자료 수집 방법 안내입니다.
+        <B2>연령대별 측정치 준거를 비교하기 위한 자료 수집 방법 안내입니다.</B2>
       </SubText>
-      <Tabs defaultActiveKey="1" items={items} />
+      <Tabs defaultActiveKey="1" items={items} size="large" />
     </SectionContainer>
   </SectionBackgroundLight>
 );
@@ -248,7 +252,6 @@ const ServiceCardWrapper = styled.div`
 // SubText 스타일
 const SubText = styled.div`
   color: var(--text-secondary);
-  font-size: 14px;
   white-space: pre-wrap;
   line-height: 1.6;
 `;

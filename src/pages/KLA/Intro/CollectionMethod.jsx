@@ -415,7 +415,7 @@ const AlertTitleWrapper = styled.div`
 `;
 
 // Alert 내부 내용 스타일 (목록 형태)
-const AlertContentWrapper = styled.div`
+const AlertContentWrapper = styled(B3)`
   padding-left: 20px;
   color: var(--text-secondary);
   display: flex;

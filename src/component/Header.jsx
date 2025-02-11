@@ -232,7 +232,7 @@ export function PageHeader(props) {
     <PageHeaderContainer>
       <Space size={16}>
         <BiArrowBack size="24px" onClick={() => navigate(-1)} />
-        <H3>{title}</H3>
+        <H4>{title}</H4>
       </Space>
       {buttonText && (
         <PrimaryButton size="large" onClick={onSubmit}>

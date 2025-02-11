@@ -17,7 +17,7 @@ import {
 import styled from "styled-components";
 import surveyData from "./question.json"; // Import JSON file directly
 import { useMediaQuery } from "react-responsive";
-import { H3, H4 } from "../../component/Typography";
+import { B3, B4, H3, H4, H5 } from "../../component/Typography";
 import { PageHeader } from "../../component/Header";
 import { PrimaryButton, SecondaryButton } from "../../component/Button";
 import { useNavigate } from "react-router-dom";
@@ -150,11 +150,11 @@ const Input = () => {
       key: "question",
       render: (text, record) => (
         <Space direction="vertical">
-          <Text strong>{text}</Text>
+          <H5>{text}</H5>
           {record.example && (
-            <Text type="secondary">
+            <B4 style={{ color: "var(--text-secondary)" }}>
               {"예)"} {record.example}
-            </Text>
+            </B4>
           )}
         </Space>
       ),
@@ -266,7 +266,7 @@ const Input = () => {
                         size={20}
                         style={{ color: "var(--fg-primary)" }}
                       />
-                      개발 배경 및 활용 안내 
+                      개발 배경 및 활용 안내
                     </AlertTitleWrapper>
                   }
                   description={
@@ -461,7 +461,7 @@ const Input = () => {
                 type="info"
               />
 
-              <H3>언어 이해 및 표현</H3>
+              <H4>언어 이해 및 표현</H4>
               <Table
                 columns={columns}
                 dataSource={categoryAQuestions} // Display questions from Category A
@@ -716,8 +716,8 @@ const Input = () => {
                 afterChange={handleSlideChange}
               >
                 {surveyData.questions.map((item, index) => (
-                  <div key={index}>
-                    <H3>{item.category}</H3>
+                  <Space direction="vertical" key={index}>
+                    <H4 style={{ marginBottom: "16px" }}>{item.category}</H4>
                     <Card style={{ display: "flex", flexDirection: "column" }}>
                       <Row gutter={[16, 16]} style={{ width: "100%", flex: 1 }}>
                         <Col span={24}>
@@ -811,7 +811,7 @@ const Input = () => {
                         결과분석
                       </PrimaryButton>
                     </Space>
-                  </div>
+                  </Space>
                 ))}
               </Carousel>
             </PageContainer>
@@ -871,13 +871,12 @@ const AlertTitleWrapper = styled.div`
   align-items: center;
 `;
 
-const AlertContentWrapper = styled.div`
+const AlertContentWrapper = styled(B3)`
   color: var(--text-secondary);
   display: flex;
   flex-direction: column;
   gap: 4px;
   font-weight: normal;
-  font-size: 14px;
 
   padding: 0 45px;
   box-sizing: border-box;
@@ -915,15 +914,7 @@ const NavigationButton = styled.div`
   }
 `;
 
-const Category = styled.div`
-  font-size: 14px;
-  color: gray;
-  margin-bottom: 8px;
-`;
-
-const Question = styled.div`
-  font-size: 16px;
-  font-weight: bold;
+const Question = styled(H5)`
   margin-bottom: 16px;
 `;
 

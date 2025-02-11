@@ -1,7 +1,7 @@
 import React from "react";
 import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
-import { H1, H2 } from "../../../component/Typography";
+import { B2, B3, H1, H2 } from "../../../component/Typography";
 import { DarkButton } from "../../../component/Button";
 import { KLAIntroImage, SLEIntroImage } from "../../../assets/images";
 import { Col, Image, Row, Tabs } from "antd";
@@ -83,7 +83,7 @@ const HeroSection = ({ isDesktop, messageInfo, setMessageInfo }) => (
         }
       </H1>
       <SubText>
-        저자 - 한림대학교 언어청각학부(배소영, 하승희, 엄지목, 유해림)
+        <B2>저자 - 한림대학교 언어청각학부(배소영, 하승희, 엄지목, 유해림)</B2>
       </SubText>
       <ButtonContainer isDesktop={isDesktop}>
         <DarkButton
@@ -114,27 +114,26 @@ const ServiceSection = ({ isDesktop }) => (
       언어 조기 선별의 중요성
     </H2>
     <ServiceWrapper isDesktop={isDesktop}>
-      <DescriptionCard icon={PaperConsultantIcon} title={"자동화된 분석 제공"}>
-        <li>
-          평균 발화길이, 어휘 다양도, 어절수별 발화목록, 낱말 및 문법 형태소
-          목록 등 객관적 분석치를 빠른 시간내에 제공합니다.
-        </li>
-      </DescriptionCard>
       <DescriptionCard
-        icon={PaperMentorIcon}
-        title={"연령 및 학년별 평가 기준"}
+        icon={PaperConsultantIcon}
+        title={"학령 전기 언어 발달과 학습 능력"}
       >
         <li>
-          자발화(2~6세), 이야기(4~6세), 쓰기(1학년~6학년) 자료에 대한 준거 제시
-        </li>
-        <li>
-          의미, 문법, 구문, 담화, 쓰기와 관련된 아동의 발달 정도를 보다 빠르고
-          객관적으로 평가할 수 있게 합니다
+          학령전기 아동의 말·언어 발달 지연은 학령기 이후 언어 능력뿐만 아니라
+          읽기와 쓰기 능력에도 영향을 미칩니다.
         </li>
       </DescriptionCard>
-      <DescriptionCard icon={PaperCoachIcon} title={"보고서 및 데이터 관리"}>
-        <li>입력한 발화자료를 기반으로 상세한 분석 결과를 보고서로 제공</li>
-        <li>프로그램을 통해 분석 자료를 관리하실 수도 있습니다.</li>
+      <DescriptionCard icon={PaperMentorIcon} title={"조기 선별의 필요성"}>
+        <li>
+          학교 입학 전에 언어 발달과 문해 기초 능력을 평가하여, 학습과 사회적
+          상호작용에서의 어려움을 예방할 수 있습니다.
+        </li>
+      </DescriptionCard>
+      <DescriptionCard icon={PaperCoachIcon} title={"언어발달 지원의 효과"}>
+        <li>
+          입조기 선별을 통해 적절한 개입이 이루어지면 원활한 언어 발달을
+          촉진하고, 학습과 소통 능력을 향상시킬 수 있습니다.
+        </li>
       </DescriptionCard>
     </ServiceWrapper>
   </ServiceContainer>
