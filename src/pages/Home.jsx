@@ -8,10 +8,11 @@ import { BsArrowRight } from "react-icons/bs";
 
 import { HeroImage } from "../assets/images";
 import { VisionCard } from "../component/Card";
-import { B3, H1, H2 } from "../component/Typography";
+import { B1, B3, H1, H2 } from "../component/Typography";
 import { DarkButton } from "../component/Button";
 import { visionItems } from "../data/visionData";
 import { useAnimatedInView } from "../hook/useAnimationInView";
+import { ConnectIcon } from "../assets/icons";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -86,19 +87,39 @@ const HeroSection = ({ isMobile, fadeIn, fadeInUp, navigate }) => (
 // Vision Section as a separate component
 const VisionSection = React.forwardRef(({ isMobile, visionItems }, ref) => (
   <VisionContainer ref={ref} isMobile={isMobile}>
-    <H2>추구하는 가치와 방향</H2>
-    <SubText>{`Speech4All의 핵심가치\n경청하다, 인식하다, 지원하다, 연결하다`}</SubText>
-    <Row gutter={[16, 16]}>
+    <div style={{ textAlign: "center" }}>
+      <Image
+        preview={false}
+        src={ConnectIcon}
+        style={{ width: "128px", height: "128px" }}
+      />
+      <H2 style={{ fontWeight: "normal" }}>추구하는 가치와 방향</H2>
+      <H2>Speech4All의 핵심가치</H2>
+    </div>
+    <Row gutter={[32, 32]}>
       {visionItems.map((item, index) => (
-        <VisionCardItem key={index} {...item} delay={index * 0.2} />
+        <VisionCardItem
+          isMobile={isMobile}
+          key={index}
+          {...item}
+          delay={index * 0.2}
+        />
       ))}
     </Row>
   </VisionContainer>
 ));
 
 // VisionCardItem component for individual vision cards
-const VisionCardItem = ({ icon, title, description, delay }) => {
+const VisionCardItem = ({
+  isMobile,
+  imageSource,
+  subtitle,
+  title,
+  description,
+  delay,
+}) => {
   const [ref, controls] = useAnimatedInView(0.2);
+  const [hover, setHover] = React.useState(false);
 
   const cardAnimation = {
     hidden: { opacity: 0, y: 30 },
@@ -106,19 +127,70 @@ const VisionCardItem = ({ icon, title, description, delay }) => {
   };
 
   return (
-    <Col xs={24} md={12} xl={6}>
+    <Col
+      xs={24}
+      md={12}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
       <motion.div
         ref={ref}
         initial="hidden"
         animate={controls}
         variants={cardAnimation}
-        style={{ height: "100%" }}
+        style={{ height: "100%", position: "relative" }}
       >
-        <VisionCard icon={icon} title={title}>
+        <Image
+          preview={false}
+          src={imageSource}
+          style={{
+            width: "100%",
+            borderRadius: "20px",
+            opacity: hover ? 0.2 : 0.8,
+            transition: "opacity 0.3s ease",
+          }}
+        />
+
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            padding: "24px 36px",
+            lineHeight: 1.8,
+            fontSize: isMobile ? "12px" : "16px",
+            opacity: hover ? 1 : 0,
+            transform: hover ? "translateY(0)" : "translateY(10px)",
+            transition: "opacity 0.3s ease, transform 0.3s ease",
+          }}
+        >
           {description.map((text, idx) => (
             <li key={idx}>{text}</li>
           ))}
-        </VisionCard>
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            padding: "24px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "16px",
+            opacity: hover ? 1 : 0.8,
+          }}
+        >
+          <B1>{subtitle}</B1>
+          <H1
+            style={{
+              WebkitTextStroke: "2px black",
+              textTransform: "uppercase",
+              letterSpacing: "2px",
+            }}
+          >
+            {title}
+          </H1>
+        </div>
       </motion.div>
     </Col>
   );

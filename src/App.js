@@ -85,7 +85,7 @@ const MainContainer = styled.div`
 `;
 
 const PageWrapper = styled.div`
-  min-width: 280px;
+  min-width: 320px;
   width: 100%;
   margin: 0 auto;
   flex: 1;
